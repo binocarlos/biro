@@ -1,4 +1,5 @@
 var dotty = require('dotty')
+var isEmpty = require('is-empty')
 var utils = require('./utils')
 
 /*
@@ -10,13 +11,19 @@ var utils = require('./utils')
 */
 module.exports = function(model, originalModel){
 	function isDirty(field){
-    return utils.getValue(field, model)!==utils.getValue(field, originalModel)
+    var currentValue = utils.getValue(field, model)
+    var originalValue = utils.getValue(field, originalModel)
+
+    if(isEmpty(currentValue) && isEmpty(originalValue)){
+      return false
+    }
+    else{
+      return currentValue!==originalValue
+    }
   }
 
   return function(field){
-  	console.log('-------------------------------------------');
-  	console.log('get valid')
-  	console.dir(field)
-    return null
+    if(!isDirty(field)) return null
+    return 'problem'
   }
 }

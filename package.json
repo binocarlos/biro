@@ -31,6 +31,7 @@
   "dependencies": {
     "angular-bsfy": "^1.2.26-1",
     "dotty": "0.0.2",
+    "is-empty": "0.0.1",
     "upper-case-first": "^1.0.1"
   }
 }
