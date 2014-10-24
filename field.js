@@ -6,6 +6,9 @@ function Field($compile){
     if(!$scope.field) $scope.field = {}
     $scope.type = $scope.field.type || 'text'
     $scope.val = utils.getValue($scope.field, $scope.model)
+    $scope.flagDirty = function(){
+      $scope.$emit('flagdirty', $scope.field.name)
+    }
     $scope.$watch('val', function(newval){
       utils.setValue($scope.field, $scope.model, newval)
     })

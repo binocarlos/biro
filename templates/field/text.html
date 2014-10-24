@@ -1,6 +1,7 @@
 <input 
 	type="{{ field.type || 'text' }}" 
 	ng-model="val" 
+	ng-blur="flagDirty()" 
 	class="form-control" 
 	name="{{ field.name }}" 
 	id="{{ field.name }}" 

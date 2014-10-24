@@ -5,11 +5,20 @@ var validator = require('./validator')
 function Form($compile){
 
   function controller($scope){
-    var originalModel = JSON.parse(JSON.stringify($scope.model))
+    
+    $scope.originalModel = JSON.parse(JSON.stringify($scope.model))
     $scope.layout = $scope.layout || 'basic'
     $scope.readonly = $scope.readonly=='true' ? true : false
     $scope.fieldTitle = utils.fieldTitle
-    $scope.fieldError = validator($scope.model, originalModel)
+    
+    var dirty = {}
+    $scope.$on('flagdirty', function($e, fieldname){
+      dirty[fieldname] = true
+    })
+
+    $scope.fieldError = validator($scope.model, function(fieldname){
+      return dirty[fieldname]
+    })
   }
   
   function linker($scope, $elem, $attr) {

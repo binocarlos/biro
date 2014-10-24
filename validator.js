@@ -9,21 +9,9 @@ var utils = require('./utils')
 	encountered
 	
 */
-module.exports = function(model, originalModel){
-	function isDirty(field){
-    var currentValue = utils.getValue(field, model)
-    var originalValue = utils.getValue(field, originalModel)
-
-    if(isEmpty(currentValue) && isEmpty(originalValue)){
-      return false
-    }
-    else{
-      return currentValue!==originalValue
-    }
-  }
-
+module.exports = function(model, isDirty){
   return function(field){
-    if(!isDirty(field)) return null
-    return 'problem'
+    if(!isDirty(field.name)) return null
+    return 'error'
   }
 }
