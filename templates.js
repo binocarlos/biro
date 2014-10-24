@@ -7,7 +7,7 @@ var templates = {
     inline:fs.readFileSync(__dirname + '/templates/layout/inline.html', 'utf8')
   },
   field:{
-  	
+  	text:fs.readFileSync(__dirname + '/templates/field/text.html', 'utf8')
   }
 }
 

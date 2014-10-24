@@ -30,6 +30,7 @@
   },
   "dependencies": {
     "angular": "^1.3.0",
-    "angular-bsfy": "^1.2.26-1"
+    "angular-bsfy": "^1.2.26-1",
+    "upper-case-first": "^1.0.1"
   }
 }
