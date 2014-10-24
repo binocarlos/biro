@@ -1,0 +1,9 @@
+<form role="form">
+  <div class="form-group" ng-repeat="field in fields track by field.name">
+    <label for="{{ field.name }}">{{ fieldTitle(field) }}</label>
+    <div>
+      <biro-field readonly="readonly" field="field" model="model" />
+    </div>
+  </div>
+  <div ng-transclude></div>
+</form>
