@@ -8,6 +8,10 @@ var app = angular.module('biro-example',[
 	$scope.schema = [{
 		name:'name'
 	},{
+		name:'email',
+		type:'email',
+		title:'Email Address'
+	},{
 		name:'color'
 	}]
 

@@ -1,6 +1,43 @@
 var templates = require('./templates').field
 var dotty = require('dotty')
 
+/*
+
+  lots of field types use the text template
+  also - a field might have a custom template associated with it
+  
+*/
+
+var textTemplates = {
+  text:true,
+  email:true,
+  number:true,
+  url:true,
+  date:true,
+  time:true,
+  dateTimeLocal:true,
+  month:true,
+  week:true
+}
+
+function getFieldTemplate(field){
+  var type = field.type || 'text'
+  if(textTemplates[type]){
+    return templates.text
+  }
+  else if(field.template){
+    return field.template
+  }
+  else{
+    if(templates[field.type]){
+      return templates[field.type]
+    }
+    else{
+      return templates.text
+    }
+  }
+}
+
 function Field($compile){
 
   function controller($scope){
@@ -13,7 +50,7 @@ function Field($compile){
   }
 
   function linker($scope, $elem, $attr) {
-    var templateHTML = templates[$scope.type]
+    var templateHTML = getFieldTemplate($scope.field)
     var templateElem = $compile(templateHTML)($scope)
     $elem.replaceWith(templateElem)
   }
