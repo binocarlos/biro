@@ -12,22 +12,25 @@ module.exports = angular
 
   .directive('biroForm', function(){
 
+    function controller($scope){
+      $scope.layout = $scope.layout || 'basic'
+      $scope.readonly = $scope.readonly=='true' ? true : false
+    }
+
+    function linker($scope, $elem, $attr) {
+      
+    }
+
     return {
       restrict:'EA',
       scope:{
         schema:'=',
         model:'=',
+        readonly:'@',
         layout:'@'
       },
       replace:true,
-      controller:function($scope){
-        
-      },
-      link: function($scope, $elem, $attr) {
-        console.log('-------------------------------------------');
-        console.dir($scope.layout)
-        console.dir($scope.model)
-        console.dir($scope.schema)
-      }
+      controller:controller,
+      link:linker
     }
   })
