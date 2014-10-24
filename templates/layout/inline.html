@@ -1,6 +1,6 @@
 <form class="form-inline" role="form">
   <div class="form-group" ng-repeat="field in schema track by field.name">
-    <label for="{{ field.name }}">{{ fieldTitle(field) | ucfirst }}</label>
+    <label for="{{ field.name }}">{{ fieldTitle(field) }}</label>
     <div>
       <biro-field readonly="readonly" field="field" model="model" />
     </div>

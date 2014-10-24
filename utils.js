@@ -1,7 +1,7 @@
+var upperCase = require('upper-case-first')
 module.exports = {
   fieldTitle:function(field){
-    var title = field.title || field.name
-
+    var title = upperCase(field.title || field.name)
     return title
   }
 }

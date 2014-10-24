@@ -7,4 +7,3 @@ module.exports = angular
 
   .directive('biroForm', require('./form'))
   .directive('biroField', require('./field'))
-  .filter('ucfirst', require('upper-case-first'))
