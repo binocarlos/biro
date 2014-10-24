@@ -1,1 +1,7 @@
-<input type="{{ type }}" ng-model="val" class="form-control" id="{{ name }}" placeholder="{{ placeholder }}" />
+<input 
+	type="{{ field.type || 'text' }}" 
+	ng-model="val" 
+	class="form-control" 
+	name="{{ field.name }}" 
+	id="{{ field.name }}" 
+	placeholder="{{ field.placeholder }}" />

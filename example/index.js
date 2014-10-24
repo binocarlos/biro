@@ -12,11 +12,11 @@ var app = angular.module('biro-example',[
 		type:'email',
 		title:'Email Address'
 	},{
-		name:'color'
+		name:'color',
+		required:true
 	}]
 
 	$scope.model = {
-		name:'bob',
-		color:'red'
+		name:'bob'
 	}
 })
