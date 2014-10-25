@@ -13,10 +13,6 @@ var typeValidators = {
 }
 
 function number(val){
-  console.log('-------------------------------------------');
-  console.log(val)
-  console.log(typeof(val))
-  console.log(isNaN(val))
   return !isNaN(val) && typeof(val)=='number' ? null : 'must be number'
 }
 
@@ -29,6 +25,7 @@ function url(val){
 }
 
 function required(val){
+  if(typeof(val)==='boolean') return null
   return isEmpty(val) ? 'required' : null
 }
 

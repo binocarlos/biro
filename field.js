@@ -72,9 +72,6 @@ function Field($compile){
     }
 
     $scope.$watch('val', function(newval){
-      console.log('-------------------------------------------');
-      console.log('test')
-      console.dir(newval)
       newval = codec.decode($scope.field, newval)
       utils.setValue($scope.field, $scope.model, newval)
     })

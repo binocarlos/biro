@@ -8,7 +8,8 @@ var templates = {
   },
   field:{
   	text:fs.readFileSync(__dirname + '/templates/field/text.html', 'utf8'),
-  	radio:fs.readFileSync(__dirname + '/templates/field/radio.html', 'utf8')
+  	radio:fs.readFileSync(__dirname + '/templates/field/radio.html', 'utf8'),
+  	checkbox:fs.readFileSync(__dirname + '/templates/field/checkbox.html', 'utf8')
   }
 }
 

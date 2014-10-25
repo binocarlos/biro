@@ -30,6 +30,9 @@ var app = angular.module('biro-example',[
 	},{
 		name:'url',
 		type:'url'
+	},{
+		name:'subscribe',
+		type:'checkbox'
 	}]
 
 	$scope.model = {
