@@ -1,7 +1,9 @@
 biro
 ====
 
-angular bootstrap forms - make a bootstrap form from a schema
+make angular bootstrap forms from a schema
+
+![pen picture](https://github.com/binocarlos/biro/raw/master/penparts.jpg "pen picture")
 
 ## install
 
