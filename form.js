@@ -9,6 +9,8 @@ function Form($compile){
     $scope.originalModel = JSON.parse(JSON.stringify($scope.model))
     $scope.layout = $scope.layout || 'basic'
     $scope.readonly = $scope.readonly=='true' ? true : false
+    $scope.static = $scope.static=='true' ? true : false
+    $scope.writable = !$scope.readonly && !$scope.static
     $scope.fieldTitle = utils.fieldTitle
     
     var dirty = {}
@@ -33,6 +35,7 @@ function Form($compile){
       schema:'=',
       model:'=',
       readonly:'@',
+      static:'@',
       layout:'@'
     },
     replace:true,

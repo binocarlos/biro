@@ -28,7 +28,8 @@ function Field($compile){
     scope:{
       field:'=',
       model:'=',
-      readonly:'@'
+      readonly:'=',
+      static:'='
     },
     replace:true,
     controller:controller,

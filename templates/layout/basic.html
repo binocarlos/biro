@@ -3,12 +3,17 @@
   	class="form-group" 
   	ng-repeat="field in schema track by field.name" 
   	ng-class="{'has-error': fieldError(field) ? true : false}">
-    	<label class="control-label" for="{{ field.name }}">{{ fieldTitle(field) }}</label>
-	    <div>
-	      <biro-field readonly="readonly" field="field" model="model" />
-	    </div>
-	    <div ng-if="fieldError(field) ? true : false" class="biro-status-label">
-	    	<span class="label label-danger">{{ fieldError(field) }}</span>
-	    </div>
+  		<div class="row">
+	    	<label for="{{ field.name }}" class="control-label">{{ fieldTitle(field) }}</label>
+		    <div>
+		      <biro-field static="static" readonly="readonly" field="field" model="model" />
+		    </div>
+		    <div ng-if="writable && field.description ? true : false" class="">
+		    	<span class="help-block">{{ field.description }}</span>
+		    </div>
+		    <div ng-if="writable && fieldError(field) ? true : false" class="biro-error-padding">
+		    	<span class="label label-danger">{{ fieldError(field) }}</span>
+		    </div>
+		  </div>
   </div>
 </form>

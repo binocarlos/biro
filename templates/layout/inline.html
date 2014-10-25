@@ -1,8 +1,11 @@
 <form name="biroForm" class="form-inline" role="form">
-  <div class="form-group" ng-repeat="field in schema track by field.name">
-    <label for="{{ field.name }}">{{ fieldTitle(field) }}</label>
-    <div>
-      <biro-field readonly="readonly" field="field" model="model" />
-    </div>
+  <div 
+  	class="form-group" 
+  	ng-repeat="field in schema track by field.name" 
+  	ng-class="{'has-error': fieldError(field) ? true : false}">
+	    <label class="control-label" for="{{ field.name }}">{{ fieldTitle(field) }}</label>
+	    <div>
+	      <biro-field static="static" readonly="readonly" field="field" model="model" />
+	    </div>
   </div>
 </form>

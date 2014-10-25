@@ -6,13 +6,13 @@
   		<div class="row">
 		    <label for="{{ field.name }}" class="control-label col-sm-3">{{ fieldTitle(field) }}</label>
 		    <div class="col-sm-9">
-		      <biro-field readonly="readonly" field="field" model="model" />
+		      <biro-field static="static" readonly="readonly" field="field" model="model" />
 		    </div>
 		  </div>
-	    <div ng-if="field.description ? true : false" class="col-sm-offset-3 biro-horizontal-padding">
+	    <div ng-if="!readonly && !static && field.description ? true : false" class="col-sm-offset-3 biro-horizontal-padding">
 	    	<span class="help-block">{{ field.description }}</span>
 	    </div>
-	    <div ng-if="fieldError(field) ? true : false" class="col-sm-offset-3 biro-horizontal-padding biro-error-padding">
+	    <div ng-if="!readonly && !static && fieldError(field) ? true : false" class="col-sm-offset-3 biro-horizontal-padding biro-error-padding">
 	    	<span class="label label-danger">{{ fieldError(field) }}</span>
 	    </div>
   </div>

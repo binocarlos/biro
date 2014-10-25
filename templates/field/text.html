@@ -1,10 +1,15 @@
 <div>
 	<input 
 		type="{{ field.type || 'text' }}" 
+		ng-if="!static" 
 		ng-model="val" 
 		ng-blur="flagDirty()" 
+		ng-readonly="readonly" 
 		class="form-control" 
 		name="{{ field.name }}" 
 		id="{{ field.name }}" 
 		placeholder="{{ field.placeholder }}" />
+	<p 
+		ng-if="static" 
+		class="form-control-static">{{ val }}</p>
 </div>
