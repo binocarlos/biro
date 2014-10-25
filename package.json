@@ -1,6 +1,6 @@
 {
   "name": "biro",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "create angular forms from a schema",
   "main": "index.js",
   "scripts": {
