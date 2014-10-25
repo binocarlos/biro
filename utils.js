@@ -40,11 +40,16 @@ function optionTitle(opt){
   return upperCase(opt)
 }
 
+function convertNewlines(val){
+  return (val || '').replace(/\r?\n/g, '<br />')
+}
+
 module.exports = {
   mapField:mapField,
   fieldTitle:fieldTitle,
   setValue:setValue,
   getValue:getValue,
   optionValue:optionValue,
-  optionTitle:optionTitle
+  optionTitle:optionTitle,
+  convertNewlines:convertNewlines
 }

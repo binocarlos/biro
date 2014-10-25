@@ -65,6 +65,7 @@ function Field($compile){
       return textTemplates[type.toLowerCase()] || 'text'
     }
 
+    $scope.convertNewlines = utils.convertNewlines
     $scope.optionValue = utils.optionValue
     $scope.optionTitle = utils.optionTitle
     $scope.optionSet = function(val){
