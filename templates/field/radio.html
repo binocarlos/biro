@@ -3,6 +3,7 @@
 		<label ng-repeat="option in field.options">
 			<input type="radio" 
 				name="{{ field.name }}" 
+				ng-disabled="readonly" 
         ng-model="$parent.val" 
         ng-change="flagDirty()" 
         ng-value="optionValue(option)"> 

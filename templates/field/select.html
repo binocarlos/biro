@@ -3,6 +3,7 @@
 		<select 
 			class="form-control" 
 			ng-model="val" 
+			ng-disabled="readonly" 
 			ng-change="flagDirty()" 
 			ng-options="optionTitle(option) for option in field.options">
       	<option value="">-- choose {{ field.nulltitle || '' }} --</option>

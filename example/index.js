@@ -50,6 +50,7 @@ var app = angular.module('biro-example',[
 	$scope.model = {
 		name:'bob',
 		color:'red',
+		food:'apple',
 		subscribe:true,
 		notes:'This is some notes\n\n\n\non some lines'
 	}
