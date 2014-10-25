@@ -1,0 +1,15 @@
+<div>
+	<div ng-hide="static">
+		<label ng-repeat="option in field.options">
+			<input type="radio" 
+				name="{{ field.name }}" 
+        ng-model="$parent.val" 
+        ng-change="flagDirty()" 
+        ng-value="optionValue(option)"> 
+      <span class="biro-no-bold">{{ optionTitle(option) }} &nbsp;</span>
+    </label>
+	</div>
+	<p 
+		ng-show="static" 
+		class="form-control-static">{{ val }}</p>
+</div>

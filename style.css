@@ -17,3 +17,7 @@
 .form-inline .form-group{
 	margin-right:5px !important;
 }
+
+.biro-no-bold{
+	font-weight: normal !important;
+}

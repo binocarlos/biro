@@ -65,7 +65,16 @@ function Field($compile){
       return textTemplates[type.toLowerCase()] || 'text'
     }
 
+    $scope.optionValue = utils.optionValue
+    $scope.optionTitle = utils.optionTitle
+    $scope.optionSet = function(val){
+      $scope.val = val
+    }
+
     $scope.$watch('val', function(newval){
+      console.log('-------------------------------------------');
+      console.log('test')
+      console.dir(newval)
       newval = codec.decode($scope.field, newval)
       utils.setValue($scope.field, $scope.model, newval)
     })

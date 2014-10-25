@@ -15,8 +15,10 @@ var app = angular.module('biro-example',[
 		description:'Some text'
 	},{
 		name:'color',
+		type:'radio',
+		options:['red', 'green', 'blue'],
 		required:true,
-		description:'This is a test amount of text'
+		description:'choose a color'
 	},{
 		name:'age',
 		type:'number',
@@ -31,6 +33,11 @@ var app = angular.module('biro-example',[
 	}]
 
 	$scope.model = {
-		name:'bob'
+		name:'bob',
+		color:'red'
+	}
+
+	$scope.showmodel = function(){
+		console.dir($scope.model)
 	}
 })

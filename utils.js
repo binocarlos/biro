@@ -26,9 +26,23 @@ function getValue(field, model){
   return dotty.get(model, field.name)
 }
 
+function optionValue(opt){
+  if(typeof(opt)==='function') return opt()
+  if(typeof(opt)==='object') return opt.value
+  return opt
+}
+
+function optionTitle(opt){
+  if(typeof(opt)==='function') return upperCase(opt())
+  if(typeof(opt)==='object') return upperCase(opt.title)
+  return upperCase(opt)
+}
+
 module.exports = {
   mapField:mapField,
   fieldTitle:fieldTitle,
   setValue:setValue,
-  getValue:getValue
+  getValue:getValue,
+  optionValue:optionValue,
+  optionTitle:optionTitle
 }
