@@ -5,8 +5,11 @@ var validator = require('./validator')
 function Form($compile){
 
   function controller($scope){
-    
-    $scope.originalModel = JSON.parse(JSON.stringify($scope.model))
+    $scope.schema = ($scope.srcschema || []).map(function(field){
+      if(typeof(field)==='string') field = {name:field}
+      if(!field.type) field.type = 'text'
+    })
+    $scope.originalModelValues = JSON.parse(JSON.stringify($scope.model))
     $scope.layout = $scope.layout || 'basic'
     $scope.readonly = $scope.readonly=='true' ? true : false
     $scope.static = $scope.static=='true' ? true : false
@@ -32,7 +35,7 @@ function Form($compile){
   return {
     restrict:'EA',
     scope:{
-      schema:'=',
+      srcschema:'=schema',
       model:'=',
       readonly:'@',
       static:'@',

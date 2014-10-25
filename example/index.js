@@ -22,6 +22,9 @@ var app = angular.module('biro-example',[
 		type:'number',
 		required:true,
 		description:'Type a number'
+	},,{
+		name:'dob',
+		type:'date'
 	}]
 
 	$scope.model = {

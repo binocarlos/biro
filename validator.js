@@ -12,10 +12,10 @@ var utils = require('./utils')
 module.exports = function(model, isDirty){
   return function(field){
     if(!isDirty(field.name)) return null
-      console.dir(model)
     var value = utils.getValue(field, model)
+
     console.log('-------------------------------------------');
-    console.log(field.name + ' = ' + value)
+    console.dir(field.name + ' = ' + value)
     if(field.required && isEmpty(value)){
       return 'required'
     }
