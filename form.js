@@ -5,10 +5,7 @@ var validator = require('./validator')
 function Form($compile){
 
   function controller($scope){
-    $scope.schema = ($scope.srcschema || []).map(function(field){
-      if(typeof(field)==='string') field = {name:field}
-      if(!field.type) field.type = 'text'
-    })
+    $scope.schema = ($scope.srcschema || []).map(utils.mapField)
     $scope.originalModelValues = JSON.parse(JSON.stringify($scope.model))
     $scope.layout = $scope.layout || 'basic'
     $scope.readonly = $scope.readonly=='true' ? true : false

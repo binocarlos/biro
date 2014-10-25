@@ -5,9 +5,9 @@ var app = angular.module('biro-example',[
     biro.name
 ])
 .controller('biro-ctrl', function($scope){
-	$scope.schema = [{
-		name:'name'
-	},{
+	$scope.schema = [
+		'name',
+	{
 		name:'email',
 		type:'email',
 		required:true,
@@ -22,7 +22,7 @@ var app = angular.module('biro-example',[
 		type:'number',
 		required:true,
 		description:'Type a number'
-	},,{
+	},{
 		name:'dob',
 		type:'date'
 	}]

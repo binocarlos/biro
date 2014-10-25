@@ -13,8 +13,7 @@ function Field($compile){
       $scope.$emit('flagdirty', $scope.field.name)
     }
     $scope.$watch('val', function(newval){
-      var processed = processor($scope.field, newval)
-      utils.setValue($scope.field, $scope.model, processed)
+      utils.setValue($scope.field, $scope.model, newval)
     })
   }
 
