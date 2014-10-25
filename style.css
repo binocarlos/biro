@@ -5,3 +5,15 @@
 .biro-horizontal-padding{
 	padding-left:8px;
 }
+
+.help-block{
+	margin-bottom:0px !important;
+}
+
+.form-group{
+	margin-bottom:10px !important;
+}
+
+.form-inline .form-group{
+	margin-right:5px !important;
+}
