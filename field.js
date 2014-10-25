@@ -6,6 +6,9 @@ function Field($compile){
     if(!$scope.field) $scope.field = {}
     $scope.type = $scope.field.type || 'text'
     $scope.val = utils.getValue($scope.field, $scope.model)
+
+    // the template runs this to indicate the value has been
+    // messed with - normally a blur or click
     $scope.flagDirty = function(){
       $scope.$emit('flagdirty', $scope.field.name)
     }

@@ -9,7 +9,10 @@
 		      <biro-field readonly="readonly" field="field" model="model" />
 		    </div>
 		  </div>
-	    <div ng-if="fieldError(field) ? true : false" class="biro-status-label col-sm-offset-3">
+	    <div ng-if="field.description ? true : false" class="col-sm-offset-3 biro-horizontal-padding">
+	    	<span class="help-block">{{ field.description }}</span>
+	    </div>
+	    <div ng-if="fieldError(field) ? true : false" class="col-sm-offset-3 biro-horizontal-padding biro-error-padding">
 	    	<span class="label label-danger">{{ fieldError(field) }}</span>
 	    </div>
   </div>

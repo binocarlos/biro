@@ -10,10 +10,13 @@ var app = angular.module('biro-example',[
 	},{
 		name:'email',
 		type:'email',
-		title:'Email Address'
+		required:true,
+		title:'Email Address',
+		description:'This is a test amount of text'
 	},{
 		name:'color',
-		required:true
+		required:true,
+		description:'This is a test amount of text'
 	}]
 
 	$scope.model = {
