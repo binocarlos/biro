@@ -43,6 +43,7 @@ var app = angular.module('biro-example',[
 		}]
 	},{
 		name:'notes',
+		
 		type:'textarea'
 	}]
 
