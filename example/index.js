@@ -41,12 +41,16 @@ var app = angular.module('biro-example',[
 			title:'Pear',
 			value:'pear'
 		}]
+	},{
+		name:'notes',
+		type:'textarea'
 	}]
 
 	$scope.model = {
 		name:'bob',
 		color:'red',
-		subscribe:true
+		subscribe:true,
+		notes:'This is some notes\n\n\n\non some lines'
 	}
 
 	$scope.showmodel = function(){

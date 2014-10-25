@@ -1,0 +1,15 @@
+<div>
+	<div ng-hide="static">
+		<textarea
+			ng-model="val" 
+			ng-blur="flagDirty()" 
+			ng-readonly="readonly" 
+			class="form-control" 
+			name="{{ field.name }}" 
+			id="{{ field.name }}" 
+			placeholder="{{ field.placeholder }}"></textarea>
+	</div>
+	<p 
+		ng-show="static" 
+		class="form-control-static">{{ (val || '').replace(/\r?\n/g, '<br />') }}</p>
+</div>
