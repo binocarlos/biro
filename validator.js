@@ -44,7 +44,7 @@ module.exports = function(model, isDirty){
 
     var validators = []
 
-    if(!field.required) validators.push(required)      
+    if(field.required) validators.push(required)      
     if(typeValidators[field.type]) validators.push(typeValidators[field.type])
     if(typeof(field.validate)=='string') validators.push(regexp(field.validate))
     if(typeof(field.validate)=='function') validators.push(field.validate)

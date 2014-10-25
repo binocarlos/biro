@@ -9,7 +9,7 @@ var templates = require('./templates').field
 */
 var textTemplates = {
   text:'text',
-  number:'number',
+  number:'text',
   date:'date',
   time:'time',
   datetimelocal:'dateTimeLocal',
