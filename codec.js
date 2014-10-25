@@ -21,7 +21,9 @@ var types = {
       return val
     },
     decode:function(val){
-      return parseFloat(val)
+      var testVal = (val || '').toString().replace(/\s*,\s*/g, '')
+      if(!testVal.match(/^-?\d+(\.\d+)?$/)) return val
+      return parseFloat(testVal)
     }
   }
 }

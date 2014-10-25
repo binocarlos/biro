@@ -8,11 +8,16 @@ var regExps = {
 
 var typeValidators = {
   email:email,
-  url:url
+  url:url,
+  number:number
 }
 
 function number(val){
-  return typeof(val)=='number' ? null : 'must be number'
+  console.log('-------------------------------------------');
+  console.log(val)
+  console.log(typeof(val))
+  console.log(isNaN(val))
+  return !isNaN(val) && typeof(val)=='number' ? null : 'must be number'
 }
 
 function email(val){
