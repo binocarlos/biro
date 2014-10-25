@@ -24,7 +24,10 @@ var app = angular.module('biro-example',[
 		description:'Type a number'
 	},{
 		name:'dob',
-		type:'date'
+		type:'month'
+	},{
+		name:'url',
+		type:'url'
 	}]
 
 	$scope.model = {

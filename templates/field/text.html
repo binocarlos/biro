@@ -1,7 +1,7 @@
 <div>
 	<div ng-hide="static">
 		<input 
-			type="{{ field.type || 'text' }}" 
+			type="{{ textFieldType(field) }}" 
 			ng-model="val" 
 			ng-blur="flagDirty()" 
 			ng-readonly="readonly" 
