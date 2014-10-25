@@ -1,0 +1,14 @@
+<div>
+	<div ng-hide="static">
+		<select 
+			class="form-control" 
+			ng-model="val" 
+			ng-change="flagDirty()" 
+			ng-options="optionTitle(option) for option in field.options">
+      	<option value="">-- choose {{ field.nulltitle || '' }} --</option>
+    </select>
+	</div>
+	<p 
+		ng-show="static" 
+		class="form-control-static">{{ optionTitle(val) }}</p>
+</div>

@@ -33,11 +33,20 @@ var app = angular.module('biro-example',[
 	},{
 		name:'subscribe',
 		type:'checkbox'
+	},{
+		name:'food',
+		type:'select',
+		required:true,
+		options:['orange', 'apple', {
+			title:'Pear',
+			value:'pear'
+		}]
 	}]
 
 	$scope.model = {
 		name:'bob',
-		color:'red'
+		color:'red',
+		subscribe:true
 	}
 
 	$scope.showmodel = function(){
