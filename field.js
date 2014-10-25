@@ -1,5 +1,6 @@
 var utils = require('./utils')
 var templates = require('./templates').field
+var codec = require('./codec')
 
 /*
 
@@ -50,7 +51,7 @@ function Field($compile){
   function controller($scope){
     if(!$scope.field) $scope.field = {}
     $scope.type = $scope.field.type || 'text'
-    $scope.val = utils.getValue($scope.field, $scope.model)
+    $scope.val = codec.encode($scope.field, utils.getValue($scope.field, $scope.model))
 
     // the template runs this to indicate the value has been
     // messed with - normally a blur or click
@@ -65,6 +66,7 @@ function Field($compile){
     }
 
     $scope.$watch('val', function(newval){
+      newval = codec.decode($scope.field, newval)
       utils.setValue($scope.field, $scope.model, newval)
     })
   }

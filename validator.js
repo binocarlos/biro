@@ -11,6 +11,10 @@ var typeValidators = {
   url:url
 }
 
+function number(val){
+  return typeof(val)=='number' ? null : 'must be number'
+}
+
 function email(val){
   return (val || '').toString().match(regExps.email) ? null : 'not valid email'
 }
