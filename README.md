@@ -98,7 +98,21 @@ var schema = [
 	type:'textarea'
 }]
 
-var form = biro(document.getElementById('form-div'), schema, model)
+var form = biro({
+	schema:schema,
+	model:model,
+	layout:'horizontal'	
+})
+
+
+// pass a function that is run when the model has been changed
+form.change(function(model, field){
+	console.log('form has changed')
+	console.dir(model)
+
+	console.log('errors:')
+	console.dir(form.errors())
+})
 
 function click(){
 
@@ -114,13 +128,9 @@ function click(){
 	
 }
 
-// pass a function that is run when the model has been changed
-form.change(function(model){
-	console.log('form has changed')
-	console.dir(model)
-})
-
 document.getElementById('click-button').addEventListener(click)
+
+form.render(document.getElementById('form-div'))
 ```
 
 Include the biro form in a page:
@@ -136,19 +146,93 @@ Include the biro form in a page:
 </body>
 ```
 
+## use with mercury app
+
+You can use a biro form in a larger mercury app:
+
+```js
+var biro = require('biro')
+var mercury = require('mercury')
+var h = mercury.h
+
+function AppState(opts){
+
+	var form = biro({
+		schema:opts.schema,
+		model:opts.model,
+		layout:'horizontal'
+	})
+
+	// our top level app state
+	return mercury.struct({
+		value:mercury.value(22),
+		// a lower-level form state
+		form:form.state()
+	})
+}
+
+function AppView(state){
+	h('div', [
+		h('div', state.value),
+		h('div', [
+			biro.view(state.form)
+		])
+	])
+}
+
+mercury.app(document.body, AppState(), AppView);
+```
+
 ## api
 
-#### `var form = biro(elem, schema, model, opts)`
+#### `var form = biro(opts)`
 
 Render a form with the given schema to a HTML element `elem`.
 
 The model is used as the form data and opts is an object with the following properties:
 
+ * schema - an array of field definitions
+ * model - an object with the initial data
  * readonly - boolean to render the form with a non-editable interface
  * static - display form values with no inputs
  * layout - string - basic|horizontal|inline - decide what layout to use
 
-#### `schema`
+#### `biro.view(state)`
+
+The mercury view function for use in a larger mercury app.
+
+#### `form.render(DOMElement)`
+
+Render the form to a given element.
+
+#### `form.change(function(model, field){})`
+
+Pass a function that is called when the form data is changed.
+
+The model is the new updated model and the field is the field that has changed.
+
+#### `form.model()`
+
+Get a POJO for the current form model.
+
+#### `form.state()`
+
+Get a mercury struct for the current form state.
+
+#### `form.errors()`
+
+Return an array of errors with the current form - an empty array means there are no errors.
+
+Each error is an object:
+
+```js
+{
+	field:'name',
+	error:'Name is required'
+}
+```
+
+## schema
 
 The schema is an array of field definitions where each field is an object with the following fields:
 
