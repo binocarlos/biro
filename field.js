@@ -1,13 +1,25 @@
 var utils = require('./utils')
 var templates = require('./templates').field
 var codec = require('./codec')
+var mercury = require('mercury')
+var observify = require('observify')
+var h = mercury.h
+
+function Field(def, model){
+
+  console.log('-------------------------------------------');
+  console.dir(def.property)
+  console.dir(model())
+  return observify(def)
+}
+
+Field.render = function(state){
+
+}
+
+module.exports = Field
 
 /*
-
-  lots of field types use the text template
-  also - a field might have a custom template associated with it
-  
-*/
 var textTemplates = {
   text:'text',
   number:'text',
@@ -20,13 +32,6 @@ var textTemplates = {
 }
 
 
-/*
-
-  if the field has a template property - assume its a html string and use that
-
-  otherwise check if there is a template HTML file for the type
-  
-*/
 function fieldTemplate(field){
   var type = field.type || 'text'
   if(textTemplates[type.toLowerCase()]){
@@ -46,7 +51,7 @@ function fieldTemplate(field){
 }
 
 
-function Field($compile){
+function Field(definition){
 
   function controller($scope){
     if(!$scope.field) $scope.field = {}
@@ -99,3 +104,5 @@ function Field($compile){
 }
 
 module.exports = Field
+
+*/

@@ -1,21 +1,36 @@
 var mercury = require('mercury')
 var observify = require('observify')
+var dotty = require('dotty')
+var utils = require('./utils')
+var Field = require('./field')
 var h = mercury.h
 
 function Form(opts){
   opts = opts || {}
 
   var model = opts.model || {}
-  var schema = opts.schema || []
-  var layout = opts.layout || 'basic'
+  var schema = (opts.schema || []).map(utils.mapField)
+
+  schema.forEach(function(fieldDef){
+    if(!model[fieldDef.property]) model[fieldDef.property] = null
+  })
 
   var modelState = observify(model)
-  var schemaState = observify(schema)
+
+  console.log('-------------------------------------------');
+  console.dir(modelState())
+
+  var schemaState = schema.map(function(fieldDef){
+    var val = dotty.get(modelState, fieldDef.property)
+    return Field(fieldDef, dotty.get(modelState, fieldDef.property))
+  })
 
   var state = mercury.struct({
     model:modelState,
     schema:schemaState,
-    layout:mercury.value(layout)
+    readonly:mercury.value(opts.readonly ? true : false),
+    static:mercury.value(opts.static ? true : false),
+    layout:mercury.value(layout || 'basic')
   })
 
   return state

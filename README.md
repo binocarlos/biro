@@ -196,6 +196,7 @@ The model is used as the form data and opts is an object with the following prop
  * readonly - boolean to render the form with a non-editable interface
  * static - display form values with no inputs
  * layout - string - basic|horizontal|inline - decide what layout to use
+ * autoRename - string - rename observ [blacklisted properties](https://github.com/maxogden/observify#blacklisted-properties)
 
 #### `biro.view(state)`
 

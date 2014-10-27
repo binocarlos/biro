@@ -7,23 +7,23 @@ var dotty = require('dotty')
   
 */
 function mapField(field){
-  if(typeof(field)==='string') field = {name:field}
+  if(typeof(field)==='string') field = {property:field}
   if(!field.type) field.type = 'text'
   field.title = fieldTitle(field)
   return field
 }
 
 function fieldTitle(field){
-  var title = upperCase(field.title || field.name)
+  var title = upperCase(field.title || field.property)
   return title
 }
 
 function setValue(field, model, newValue){
-  dotty.put(model, field.name, newValue)
+  dotty.put(model, field.property, newValue)
 }
 
 function getValue(field, model){
-  return dotty.get(model, field.name)
+  return dotty.get(model, field.property)
 }
 
 function optionValue(opt){

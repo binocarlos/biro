@@ -38,7 +38,7 @@
     "insert-css": "^0.2.0",
     "is-empty": "0.0.1",
     "mercury": "^8.0.0",
-    "observify": "^1.0.2",
+    "observify": "^1.1.0",
     "upper-case-first": "^1.0.1"
   }
 }
