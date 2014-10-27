@@ -1,5 +1,4 @@
 var upperCase = require('upper-case-first')
-var dotty = require('dotty')
 
 /*
 
@@ -16,14 +15,6 @@ function mapField(field){
 function fieldTitle(field){
   var title = upperCase(field.title || field.property)
   return title
-}
-
-function setValue(field, model, newValue){
-  dotty.put(model, field.property, newValue)
-}
-
-function getValue(field, model){
-  return dotty.get(model, field.property)
 }
 
 function optionValue(opt){
@@ -46,9 +37,7 @@ function convertNewlines(val){
 
 module.exports = {
   mapField:mapField,
-  fieldTitle:fieldTitle,
-  setValue:setValue,
-  getValue:getValue,
+  fieldTitle:fieldTitle,  
   optionValue:optionValue,
   optionTitle:optionTitle,
   convertNewlines:convertNewlines

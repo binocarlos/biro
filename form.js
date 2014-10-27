@@ -1,6 +1,6 @@
 var mercury = require('mercury')
 var observify = require('observify')
-var dotty = require('dotty')
+var deep = require('deep-access')
 var utils = require('./utils')
 var Field = require('./field')
 var h = mercury.h
@@ -17,12 +17,8 @@ function Form(opts){
 
   var modelState = observify(model)
 
-  console.log('-------------------------------------------');
-  console.dir(modelState())
-
   var schemaState = schema.map(function(fieldDef){
-    var val = dotty.get(modelState, fieldDef.property)
-    return Field(fieldDef, dotty.get(modelState, fieldDef.property))
+    return Field(fieldDef, deep(modelState, fieldDef.property))
   })
 
   var state = mercury.struct({
