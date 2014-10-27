@@ -23,12 +23,17 @@
     "url": "https://github.com/binocarlos/biro/issues"
   },
   "homepage": "https://github.com/binocarlos/biro",
+  "browserify": {
+    "transform": [
+      "brfs"
+    ]
+  },
   "devDependencies": {
-    "brfs": "^1.2.0",
     "browserify": "^6.1.0",
     "uglifyify": "^2.5.0"
   },
   "dependencies": {
+    "brfs": "^1.2.0",
     "angular-bsfy": "^1.2.26-1",
     "dotty": "0.0.2",
     "insert-css": "^0.2.0",
