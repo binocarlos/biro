@@ -1,3 +1,33 @@
+var mercury = require('mercury')
+var observify = require('observify')
+var h = mercury.h
+
+function Form(opts){
+  opts = opts || {}
+
+  var model = opts.model || {}
+  var schema = opts.schema || []
+  var layout = opts.layout || 'basic'
+
+  var modelState = observify(model)
+  var schemaState = observify(schema)
+
+  var state = mercury.struct({
+    model:modelState,
+    schema:schemaState,
+    layout:mercury.value(layout)
+  })
+
+  return state
+}
+
+Form.render = function(state){
+
+}
+
+module.exports = Form
+
+/*
 var templates = require('./templates').layout
 var utils = require('./utils')
 var validator = require('./validator')
@@ -45,3 +75,4 @@ function Form($compile){
 }
 
 module.exports = Form
+*/

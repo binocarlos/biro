@@ -1,35 +1,35 @@
 var biro = require('../')
 
 var schema = [
-	'name',
+	'fullname',
 {
-	name:'email',
+	property:'email',
 	type:'email',
 	required:true,
 	title:'Email Address',
 	description:'Some text'
 },{
-	name:'color',
+	property:'color',
 	type:'radio',
 	options:['red', 'green', 'blue'],
 	required:true,
 	description:'choose a color'
 },{
-	name:'age',
+	property:'age',
 	type:'number',
 	required:true,
 	description:'Type a number'
 },{
-	name:'dob',
+	property:'dob',
 	type:'month'
 },{
-	name:'url',
+	property:'url',
 	type:'url'
 },{
-	name:'subscribe',
+	property:'subscribe',
 	type:'checkbox'
 },{
-	name:'food',
+	property:'food',
 	type:'select',
 	required:true,
 	options:['orange', 'apple', {
@@ -37,13 +37,13 @@ var schema = [
 		value:'pear'
 	}]
 },{
-	name:'notes',
+	property:'notes',
 	
 	type:'textarea'
 }]
 
 var model = {
-	name:'bob',
+	fullname:'bob',
 	color:'red',
 	food:'apple',
 	subscribe:true,

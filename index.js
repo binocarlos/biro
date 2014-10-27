@@ -1,5 +1,6 @@
 var mercury = require('mercury')
 var stylesheet = require('./stylesheet')
+var Form = require('./form')
 
 function biro(opts){
 	opts = opts || {}

@@ -42,10 +42,10 @@ var model = {
 // a schema is an array of fields each describing an input to render
 var schema = [
 	// fields can be strings which are mapped onto the fieldname
-	'name',
+	'fullname',
 {
 	// the field name is the property of the model
-	name:'email',
+	property:'email',
 
 	// the type describes what type of renderer to use
 	type:'email',
@@ -59,7 +59,7 @@ var schema = [
 	// display this text below the field
 	description:'Some text'
 },{
-	name:'color',
+	property:'color',
 	type:'radio',
 
 	// for fields that required a list of options (radio, select)
@@ -67,7 +67,7 @@ var schema = [
 	required:true,
 	description:'choose a color'
 },{
-	name:'age',
+	property:'age',
 	type:'number',
 	required:true,
 
@@ -75,16 +75,16 @@ var schema = [
 	validate:function()
 	description:'Type a number'
 },{
-	name:'dob',
+	property:'dob',
 	type:'month'
 },{
-	name:'url',
+	property:'url',
 	type:'url'
 },{
-	name:'subscribe',
+	property:'subscribe',
 	type:'checkbox'
 },{
-	name:'food',
+	property:'food',
 	type:'select',
 	required:true,
 
@@ -94,7 +94,7 @@ var schema = [
 		value:'pear'
 	}]
 },{
-	name:'notes',
+	property:'notes',
 	type:'textarea'
 }]
 
@@ -236,7 +236,7 @@ Each error is an object:
 
 The schema is an array of field definitions where each field is an object with the following fields:
 
-##### `name`
+##### `property`
 
 The name of the field from the model.  This can be delimited by dots to access deep nested properties.
 
