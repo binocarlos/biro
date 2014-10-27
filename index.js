@@ -17,23 +17,21 @@ function biro(opts){
 		},
 		render:function(elem){
 			if(!elem) throw new Error('biro.render requires DOM element')
+			mercury.app(elem, state, Form.Render);
 		},
 		change:function(fn){
 			if(!fn) throw new Error('biro.change requires a listener function')
+			state.model(fn)
 		},
 		errors:function(){
 			//return state.errors()
 		},
 		model:function(){
-			//return state.model()
+			return state.model()
 		}
 	}
 	
 }
 
-function view(state){
-
-}
-
 module.exports = biro
-module.exports.view = view
+module.exports.view = Form.Render

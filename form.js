@@ -26,14 +26,14 @@ function Form(opts){
     schema:schemaState,
     readonly:mercury.value(opts.readonly ? true : false),
     static:mercury.value(opts.static ? true : false),
-    layout:mercury.value(layout || 'basic')
+    layout:mercury.value(opts.layout || 'basic')
   })
 
   return state
 }
 
-Form.render = function(state){
-
+Form.Render = function(state){
+  return h('div', state.schema.map(Field.render))
 }
 
 module.exports = Form

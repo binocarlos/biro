@@ -7,14 +7,35 @@ var h = mercury.h
 
 function Field(def, model){
 
-  console.log('-------------------------------------------');
-  console.dir(def.property)
-  console.dir(model())
-  return observify(def)
+  var fieldDef = observify(def)
+
+  var events = mercury.input(['change', 'dirty'])
+
+  var state = mercury.struct({
+    def:observify(def),
+    events:events
+  })
+
+  events.change(function(data){
+
+    console.log('-------------------------------------------');
+    console.log('new data')
+    console.log(def.property)
+    console.log(data)
+
+  })
+
+  events.dirty(function(){
+
+  })
+
+  return {
+    state:state
+  }
 }
 
 Field.render = function(state){
-
+  return h('div', 'this is a field')
 }
 
 module.exports = Field

@@ -55,6 +55,11 @@ var form = biro({
 	model:model
 })
 
+
 function showModel(){
 	console.dir(form.model())
 }
+
+form.render(document.getElementById('form-render'))
+
+document.getElementById('form-log').addEventListener(showModel)
