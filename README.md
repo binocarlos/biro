@@ -1,7 +1,7 @@
 biro
 ====
 
-make angular bootstrap forms from a schema
+make reactive bootstrap forms from a schema
 
 ![pen picture](https://github.com/binocarlos/biro/raw/master/penparts.jpg "pen picture")
 
@@ -16,140 +16,137 @@ $ npm install biro --save
 Include it in your app.js:
 
 ```js
-var angular = require('angular-bsfy')
 var biro = require('biro')
 
-var app = angular.module('myApp',[
-    biro.name
-])
+// your app goes here
 ```
 
-Then compile with [browserify](https://github.com/substack/node-browserify) and [brfs](https://github.com/substack/brfs):
+Then compile with [browserify](https://github.com/substack/node-browserify):
 
 ```bash
-$ browserify -t brfs app.js > bundle.js
+$ browserify > bundle.js
 ```
 
 ## usage
 
-Biro forms are created from a schema which controls what form fields will be shown for a model.
+Create a biro form by passing a schema that describes what fields to render and a model for the data:
 
 ```js
-var angular = require('angular-bsfy')
 var biro = require('biro')
 
-var app = angular.module('myApp',[
-    biro.name
-])
+var model = {
+	color:'red',
+	email:'bob@builder.com'
+}
 
-app.controller('MyCtrl', function($scope){
+// a schema is an array of fields each describing an input to render
+var schema = [
+	// fields can be strings which are mapped onto the fieldname
+	'name',
+{
+	// the field name is the property of the model
+	name:'email',
 
-	$scope.schema = [
-		'name',
-	{
-		name:'email',
-		type:'email',
-		required:true,
-		title:'Email Address',
-		description:'Some text'
-	},{
-		name:'color',
-		type:'radio',
-		options:['red', 'green', 'blue'],
-		required:true,
-		description:'choose a color'
-	},{
-		name:'age',
-		type:'number',
-		required:true,
-		description:'Type a number'
-	},{
-		name:'dob',
-		type:'month'
-	},{
-		name:'url',
-		type:'url'
-	},{
-		name:'subscribe',
-		type:'checkbox'
-	},{
-		name:'food',
-		type:'select',
-		required:true,
-		options:['orange', 'apple', {
-			title:'Pear',
-			value:'pear'
-		}]
-	},{
-		name:'notes',
-		type:'textarea'
+	// the type describes what type of renderer to use
+	type:'email',
+
+	// ensure the user provides a value
+	required:true,
+
+	// display this title rather than the name uppercased
+	title:'Email Address',
+
+	// display this text below the field
+	description:'Some text'
+},{
+	name:'color',
+	type:'radio',
+
+	// for fields that required a list of options (radio, select)
+	options:['red', 'green', 'blue'],
+	required:true,
+	description:'choose a color'
+},{
+	name:'age',
+	type:'number',
+	required:true,
+
+	// custom validate function returns true or false
+	validate:function()
+	description:'Type a number'
+},{
+	name:'dob',
+	type:'month'
+},{
+	name:'url',
+	type:'url'
+},{
+	name:'subscribe',
+	type:'checkbox'
+},{
+	name:'food',
+	type:'select',
+	required:true,
+
+	// options can be strings or objects with a title and value
+	options:['orange', 'apple', {
+		title:'Pear',
+		value:'pear'
 	}]
-	
-	$scope.model = {
-		color:'red',
-		email:'bob@builder.com'
-	}
+},{
+	name:'notes',
+	type:'textarea'
+}]
 
-	$scope.click = function(){
-		console.dir($scope.model)
+var form = biro(document.getElementById('form-div'), schema, model)
+
+function click(){
+
+	var errors = form.errors()
+
+	if(errors.length>0){
+		console.log('there are ' + errors.length + ' errors')
+	}
+	else{
+		console.log('the data is:')
+		console.dir(form.model())
 	}
 	
+}
+
+// pass a function that is run when the model has been changed
+form.change(function(model){
+	console.log('form has changed')
+	console.dir(model)
 })
+
+document.getElementById('click-button').addEventListener(click)
 ```
 
 Include the biro form in a page:
 
 ```html
-<body ng-app="MyApp" ng-controller="MyCtrl">
+<!doctype html>
+<body>
 
-<div>
-	<biro-form schema="schema" modle="model" />
-	<button type="button" ng-click="click()">click</button>
-</div>
+<div id="form-div"></div>
+<button type="button" id="click-button">click</button>
 
 <script src="build.js"></script>
 </body>
 ```
 
-## directives
+## api
 
-#### `biro-form`
+#### `var form = biro(elem, schema, model, opts)`
 
-Render an array of fields into a form.
+Render a form with the given schema to a HTML element `elem`.
 
-```js
-{
-  srcschema:'=schema',
-  model:'=',
-  readonly:'@',
-  static:'@',
-  layout:'@'
-}
-```
+The model is used as the form data and opts is an object with the following properties:
 
-`schema` is an array of field definitions (more below).
-
-`model` is an object that is the current data being edited.
-
-`readonly` is a string either `true` or `false` (or any other value than true).
-
-`static` is a string (true or false|other) that will display only values not form fields.
-
-`layout` is a string that is one of `basic`, `horizontal` or `inline`.
-
-#### `biro-field`
-
-Render a single field.
-
-```js
-{
-  field:'=',
-  model:'=',
-  readonly:'=',
-  static:'='
-}
-```
-
+ * readonly - boolean to render the form with a non-editable interface
+ * static - display form values with no inputs
+ * layout - string - basic|horizontal|inline - decide what layout to use
 
 #### `schema`
 
@@ -184,10 +181,6 @@ The built in types are:
  * month
  * week
 
-##### `template`
-
-A string that is used to render the gui for the field.  Use this to render custom field types.
-
 ##### `required`
 
 A boolean to indicate there must be a value provided for this field.
@@ -217,6 +210,10 @@ A string to display when no value is supplied for the field.
 ##### `description`
 
 A string to display underneath the field to provide help to the user.
+
+##### `render`
+
+A function that accepts a state and returns a virtual DOM element for the interface for that field.
 
 ## license
 
