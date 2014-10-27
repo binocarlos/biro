@@ -1,10 +1,13 @@
-var angular = require('angular-bsfy')
+var mercury = require('mercury')
 var stylesheet = require('./stylesheet')
-require('./sanitize')
 
-module.exports = angular
-	.module('biro', [
-    'ngSanitize'
-  ])
-  .directive('biroForm', require('./form'))
-  .directive('biroField', require('./field'))
+module.exports = function(elem, schema, model, opts){
+	if(!elem) throw new Error('biro requires an element to be rendered to')
+	schema = schema || []
+	model = model || {}
+	opts = opts || {}
+
+	opts.schema = schema
+
+	var state = Form(opts, model)
+}
