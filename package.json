@@ -1,12 +1,11 @@
 {
   "name": "biro",
   "version": "0.1.0",
-  "description": "create angular forms from a schema",
+  "description": "make reactive bootstrap forms from a schema",
   "main": "index.js",
   "scripts": {
-    "test": "npm test",
-    "buildexample": "browserify -t brfs example/index.js > example/build.js",
-    "buildexamplemin": "browserify -g uglifyify -t brfs example/index.js > example/build.js"
+    "test": "browserify test.js | testling",
+    "buildexample": "browserify example/index.js > example/build.js"
   },
   "repository": {
     "type": "git",
@@ -30,7 +29,8 @@
   },
   "devDependencies": {
     "browserify": "^6.1.0",
-    "uglifyify": "^2.5.0"
+    "tape": "^3.0.1",
+    "testling": "^1.7.1"
   },
   "dependencies": {
     "brfs": "^1.2.0",

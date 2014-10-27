@@ -2,24 +2,17 @@
 <head>
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.1.1/css/bootstrap.css" />
 </head>
-<body ng-app="biro-example" ng-controller="biro-ctrl">
+<body>
 
-<div class="container">
-	<div class="row">
-		<div class="col-sm-12">
-			
-			<div>
-				<biro-form 
-					readonly="true" 
-					layout="horizontal" 
-					schema="schema" 
-					model="model" />
+	<div class="container">
+		<div class="row">
+			<div class="col-sm-12">
+				<div id="form-render"></div>
+				<button id="form-log">Click</button>
 			</div>
-
-			<button ng-click="showmodel()">Click</button>
 		</div>
 	</div>
-</div>
-<script src="build.js"></script>
+	<script src="build.js"></script>
+
 </body>
 </html>
