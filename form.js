@@ -3,6 +3,7 @@ var observify = require('observify')
 var deep = require('deep-access')
 var utils = require('./utils')
 var Field = require('./field')
+var templates = require('./templates')
 var h = mercury.h
 
 function Form(opts){
@@ -17,9 +18,9 @@ function Form(opts){
 
   var modelState = observify(model)
 
-  var schemaState = schema.map(function(fieldDef){
+  var schemaState = mercury.array(schema.map(function(fieldDef){
     return Field(fieldDef, deep(modelState, fieldDef.property))
-  })
+  }))
 
   var state = mercury.struct({
     model:modelState,
@@ -33,7 +34,7 @@ function Form(opts){
 }
 
 Form.Render = function(state){
-  return h('div', state.schema.map(Field.render))
+  return templates.layout[state.layout](state.schema)
 }
 
 module.exports = Form

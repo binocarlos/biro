@@ -5,7 +5,7 @@ var mercury = require('mercury')
 var observify = require('observify')
 var h = mercury.h
 
-function Field(def, model){
+function Field(def, value){
 
   var fieldDef = observify(def)
 
@@ -13,6 +13,7 @@ function Field(def, model){
 
   var state = mercury.struct({
     def:observify(def),
+    value:value,
     events:events
   })
 
@@ -29,9 +30,7 @@ function Field(def, model){
 
   })
 
-  return {
-    state:state
-  }
+  return state
 }
 
 Field.render = function(state){

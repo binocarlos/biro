@@ -62,4 +62,4 @@ function showModel(){
 
 form.render(document.getElementById('form-render'))
 
-document.getElementById('form-log').addEventListener(showModel)
+document.getElementById('form-log').addEventListener('click', showModel)

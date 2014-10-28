@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "browserify test.js | testling",
-    "buildexample": "browserify example/index.js > example/build.js"
+    "buildexample": "browserify example/index.js > example/build.js",
+    "testbuild":"browserify -t mercury-jsxify templates/layout/basic.jsx"
   },
   "repository": {
     "type": "git",
@@ -24,7 +25,8 @@
   "homepage": "https://github.com/binocarlos/biro",
   "browserify": {
     "transform": [
-      "brfs"
+      "brfs",
+      "mercury-jsxify"
     ]
   },
   "devDependencies": {
