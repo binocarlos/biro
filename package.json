@@ -6,7 +6,7 @@
   "scripts": {
     "test": "browserify test.js | testling",
     "buildexample": "browserify example/index.js > example/build.js",
-    "testbuild":"browserify -t mercury-jsxify templates/layout/basic.jsx"
+    "testbuild": "mercury-jsx templates/layout/test.jsx > templates/layout/test.js"
   },
   "repository": {
     "type": "git",
@@ -23,14 +23,10 @@
     "url": "https://github.com/binocarlos/biro/issues"
   },
   "homepage": "https://github.com/binocarlos/biro",
-  "browserify": {
-    "transform": [
-      "brfs",
-      "mercury-jsxify"
-    ]
-  },
   "devDependencies": {
     "browserify": "^6.1.0",
+    "ls-r": "^0.2.1",
+    "mercury-jsx": "^0.1.3",
     "tape": "^3.0.1",
     "testling": "^1.7.1"
   },
