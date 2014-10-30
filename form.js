@@ -45,7 +45,8 @@ function Form(opts){
 }
 
 Form.Render = function(state){
-  return templates.layout[state.layout](state.schema)
+  var layoutTemplate = templates.layout[state.layout] || templates.layout.basic
+  return layoutTemplate(state.schema)
 }
 
 module.exports = Form

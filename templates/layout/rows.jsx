@@ -3,7 +3,7 @@
  */
 
 var h = require('mercury').h
-var Field = require('../../field')
+var RenderField = require('../../renderfield')
 var utils = require('../../utils')
 
 module.exports = function(fields, opts){
@@ -12,8 +12,9 @@ module.exports = function(fields, opts){
 	var labelClass = opts.labelClass || ''
 	var guiClass = opts.guiClass || ''
 
-	return fields.map(function(field){
-		var gui = Field.render(field)
+	var fields = fields.map(function(field){
+
+		var gui = RenderField(field)
 		var description
 		var error
 
@@ -31,7 +32,7 @@ module.exports = function(fields, opts){
 	    </div>
 		}
 
-    return 
+    var t =
     	<div class={'form-group ' + field.error ? 'has-error' : '' }>
 	  		<div class="row">
 		    	<label for={ field.property } class={ "control-label " + labelClass }>
@@ -42,5 +43,12 @@ module.exports = function(fields, opts){
 			    {error}
 			  </div>
 	  	</div>
+
+	  return t
   })
+
+  console.log('-------------------------------------------');
+  console.log(fields)
+
+  return fields
 }

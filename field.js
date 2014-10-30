@@ -1,5 +1,4 @@
 var utils = require('./utils')
-var templates = require('./templates').field
 var codec = require('./codec')
 var mercury = require('mercury')
 var observify = require('observify')
@@ -56,10 +55,6 @@ function Field(def, value, opts){
   })
 
   return state
-}
-
-Field.render = function(state){
-  return h('div', 'this is a field')
 }
 
 module.exports = Field

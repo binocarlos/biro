@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "browserify test.js | testling",
+    "buildexample": "browserify example/index.js > example/build.js",
     "converttemplates": "mercury-jsx-folder -i templates -o templates"
   },
   "repository": {
@@ -22,6 +23,9 @@
     "url": "https://github.com/binocarlos/biro/issues"
   },
   "homepage": "https://github.com/binocarlos/biro",
+  "browserify": {
+    "transform": ["brfs"]
+  },
   "devDependencies": {
     "browserify": "^6.1.0",
     "mercury-jsx-folder": "^1.1.0",

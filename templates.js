@@ -1,8 +1,8 @@
 var templates = {
   layout:{
-    basic:require('./templates/layout/basic.jsx')/*fs.readFileSync(__dirname + '/templates/layout/basic.html', 'utf8'),
-    horizontal:fs.readFileSync(__dirname + '/templates/layout/horizontal.html', 'utf8'),
-    inline:fs.readFileSync(__dirname + '/templates/layout/inline.html', 'utf8')*/
+    basic:require('./templates/layout/basic'),
+    horizontal:require('./templates/layout/horizontal'),
+    inline:require('./templates/layout/inline')
   },
   field:{/*
   	text:fs.readFileSync(__dirname + '/templates/field/text.html', 'utf8'),
