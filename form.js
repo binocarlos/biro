@@ -16,17 +16,28 @@ function Form(opts){
     if(!model[fieldDef.property]) model[fieldDef.property] = null
   })
 
+  var static = mercury.value(opts.static ? true : false)
+  var readonly = mercury.value(opts.readonly ? true : false)
+
+  // writable is if we are not readonly and not static
+  var writable = mercury.computed([static, readonly], function(s, r){
+    return !s && !r
+  })
+
   var modelState = observify(model)
 
   var schemaState = mercury.array(schema.map(function(fieldDef){
-    return Field(fieldDef, deep(modelState, fieldDef.property))
+    return Field(fieldDef, deep(modelState, fieldDef.property), {
+      writable:writable
+    })
   }))
 
   var state = mercury.struct({
     model:modelState,
     schema:schemaState,
-    readonly:mercury.value(opts.readonly ? true : false),
-    static:mercury.value(opts.static ? true : false),
+    writeable:writable,
+    readonly:readonly,
+    static:static,
     layout:mercury.value(opts.layout || 'basic')
   })
 

@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "browserify test.js | testling",
-    "converttemplates": "rm -rf templates/build && mercury-jsx-folder -i templates/src -o templates/build"
+    "converttemplates": "mercury-jsx-folder -i templates -o templates"
   },
   "repository": {
     "type": "git",
