@@ -47,8 +47,5 @@ module.exports = function(fields, opts){
 	  return t
   })
 
-  console.log('-------------------------------------------');
-  console.log(fields)
-
   return fields
 }

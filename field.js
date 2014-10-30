@@ -16,13 +16,13 @@ var observProps = [
 
 function Field(def, value, opts){
 
-  var useOpts = {}
+  var usedef = {}
 
   observProps.forEach(function(p){
-    useOpts[p] = opts[p]
+    usedef[p] = def[p]
   })
 
-  var fieldDef = observify(useOpts)
+  var fieldDef = observify(usedef)
 
   var events = mercury.input(['change', 'dirty'])
 
@@ -33,6 +33,8 @@ function Field(def, value, opts){
     error:mercury.value(null),
     // writable is global to the form
     writable:opts.writable,
+    static:opts.static,
+    readonly:opts.readonly,
     events:events,
     fns:{
       render:opts.render,

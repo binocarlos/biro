@@ -28,7 +28,9 @@ function Form(opts){
 
   var schemaState = mercury.array(schema.map(function(fieldDef){
     return Field(fieldDef, deep(modelState, fieldDef.property), {
-      writable:writable
+      writable:writable,
+      readonly:readonly,
+      static:static
     })
   }))
 
