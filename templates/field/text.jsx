@@ -3,25 +3,28 @@
  */
 
 var h = require('mercury').h
-var templates = require('../../texttemplates')
 
 module.exports = function(field){
 	
 	var value = field.value
 	var gui
 	if(field.static){
-		gui = <p class="form-control-static">{ value }</p>
+		gui = <p className="form-control-static">{ value }</p>
 	}
 	else{
+		console.log('-------------------------------------------');
+		console.log('-------------------------------------------');
+		console.log('textfield')
+		console.dir(field)
 		gui = 
 		<input 
-			type={ textTemplates.inputType(field.def.type) } 
+			type={ field.textType } 
 			value={ value } 
-			class="form-control" 
+			className="form-control" 
 			name={ field.def.property } 
 			id={ field.def.property } 
 			placeholder={ field.def.placeholder } />
 	}
 
-	return <div>{ gui }</div>
+	return <div className="tester">{ gui }</div>
 }

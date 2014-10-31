@@ -19,25 +19,25 @@ module.exports = function(fields, opts){
 
 		if(field.writable && field.description){
 			description = 
-			h("div", {class: offsetClass }, [
-  			h("span", {class:"help-block"}, [ field.description ])
+			h("div", {className: offsetClass }, [
+  			h("span", {className:"help-block"}, [ field.description ])
   		])
 		}
 
 		if(field.writable && field.error){
 			error = 
-			h("div", {class: "biro-error-padding " + offsetClass }, [
-	    	h("span", {class:"label label-danger"}, [ field.error ])
+			h("div", {className: "biro-error-padding " + offsetClass }, [
+	    	h("span", {className:"label label-danger"}, [ field.error ])
 	    ])
 		}
 
     var t =
-    	h("div", {class:'form-group ' + field.error ? 'has-error' : '' }, [
-	  		h("div", {class:"row"}, [
-		    	h("label", {for: field.property,  class: "control-label " + labelClass }, [
+    	h("div", {className:'form-group ' + field.error ? 'has-error' : '' }, [
+	  		h("div", {className:"row"}, [
+		    	h("label", {for: field.property,  className: "control-label " + labelClass }, [
 		    		 utils.fieldTitle(field) 
 		    	]),
-			    h("div", {class: guiClass }, [ gui ]),
+			    h("div", {className: guiClass }, [ gui ]),
 			    description,
 			    error
 			  ])

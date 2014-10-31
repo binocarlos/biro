@@ -3,7 +3,6 @@
  */
 
 var h = require('mercury').h
-var textTemplates = require('../../texttemplates')
 
 module.exports = function(field){
 	

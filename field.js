@@ -1,5 +1,6 @@
 var utils = require('./utils')
 var codec = require('./codec')
+var templates = require('./templates')
 var mercury = require('mercury')
 var observify = require('observify')
 var h = mercury.h
@@ -23,9 +24,7 @@ function Field(def, value, opts){
     error:mercury.value(null),
     events:events,
     fns:{
-      template:function(state){
-        return h('div', 'this is a field')
-      },
+      template:templates.fieldTemplate(def),
       encode:opts.encode || defaultEncode,
       decode:opts.decode || defaultDecode
     }

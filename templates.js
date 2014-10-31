@@ -1,4 +1,4 @@
-var textTemplates = {
+var textTypes = {
   text:'text',
   number:'text',
   date:'date',
@@ -9,13 +9,26 @@ var textTemplates = {
   week:'week'
 }
 
+function textInputType(type){
+  type = type || 'text'
+  return textTypes[type.toLowerCase()]
+}
+
+function isTextTemplate(def){
+  var type = def.type || 'text'
+  return type === 'text' || def.isText
+}
+
 var layoutTemplates = {
   basic:require('./templates/layout/basic'),
   horizontal:require('./templates/layout/horizontal'),
   inline:require('./templates/layout/inline')
 }
 
-var fieldTemplates = {/*
+var fieldTemplates = {
+  text:require('./templates/field/text')
+
+/*
   text:fs.readFileSync(__dirname + '/templates/field/text.html', 'utf8'),
   radio:fs.readFileSync(__dirname + '/templates/field/radio.html', 'utf8'),
   checkbox:fs.readFileSync(__dirname + '/templates/field/checkbox.html', 'utf8'),
@@ -23,14 +36,11 @@ var fieldTemplates = {/*
   textarea:fs.readFileSync(__dirname + '/templates/field/textarea.html', 'utf8')*/
 }
 
-function textInputType(type){
-  type = type || 'text'
-  return textTemplates[type.toLowerCase()]
-}
-
 function fieldTemplate(field){
   var type = field.type || 'text'
-  if(textTemplates[type.toLowerCase()]){
+  if(field.isText) type = 'text'
+  type = 'text'
+  if(textTypes[type.toLowerCase()]){
     return fieldTemplates.text
   }
   else if(field.template){
@@ -49,9 +59,9 @@ function fieldTemplate(field){
 var templates = {
   layout:layoutTemplates,
   field:fieldTemplates,
-  textTemplates:textTemplates,
-  textInputType:textInputType,
-  fieldTemplate:fieldTemplate
+  fieldTemplate:fieldTemplate,
+  textTypes:textTypes,
+  textInputType:textInputType
 }
 
 module.exports = templates
