@@ -7,5 +7,5 @@ var Rows = require('./rows')
 
 module.exports = function(fields){
 	var rows = Rows(fields)
-	return h("form", {name:"biroForm", role:"form"}, [rows])
+	return h("form", {className:"biroForm form-basic", name:"biroForm", role:"form"}, [rows])
 }

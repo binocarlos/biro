@@ -12,5 +12,5 @@ module.exports = function(fields){
 		guiClass:"col-sm-9"
 	})
 
-	return <form name="biroForm" class="form-horizontal" role="form">{rows}</form>
+	return <form name="biroForm" className="biroForm form-horizontal" role="form">{rows}</form>
 }

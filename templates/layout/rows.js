@@ -17,30 +17,33 @@ module.exports = function(fields, opts){
 		var description
 		var error
 
-		if(field.writable && field.description){
+		console.log('-------------------------------------------');
+		console.log('error: ' + field.error)
+
+		if(field.opts.writable && field.def.description){
 			description = 
 			h("div", {className: offsetClass }, [
-  			h("span", {className:"help-block"}, [ field.description ])
+  			h("span", {className:"help-block"}, [ field.def.description ])
   		])
 		}
 
-		if(field.writable && field.error){
+		if(field.opts.writable && field.error){
 			error = 
 			h("div", {className: "biro-error-padding " + offsetClass }, [
 	    	h("span", {className:"label label-danger"}, [ field.error ])
 	    ])
 		}
 
+		//<div className={'form-group ' + field.error ? 'has-error' : '' }>
+
     var t =
-    	h("div", {className:'form-group ' + field.error ? 'has-error' : '' }, [
-	  		h("div", {className:"row"}, [
-		    	h("label", {for: field.property,  className: "control-label " + labelClass }, [
-		    		 utils.fieldTitle(field) 
-		    	]),
-			    h("div", {className: guiClass }, [ gui ]),
-			    description,
-			    error
-			  ])
+    	h("div", {className: 'form-group' }, [
+	    	h("label", {for: field.property,  className: "control-label " + labelClass }, [
+	    		 utils.fieldTitle(field.def) 
+	    	]),
+		    h("div", {className: guiClass }, [ gui ]),
+		    description,
+		    error
 	  	])
 
 	  return t

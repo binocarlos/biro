@@ -51,6 +51,7 @@ var model = {
 }
 
 var form = biro({
+	layout:'basic',
 	schema:schema,
 	model:model
 })

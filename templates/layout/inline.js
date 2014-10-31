@@ -10,11 +10,11 @@ module.exports = function(fields){
 		var gui = field.fns.template(field)
 		
     return 
-    	h("div", {class:'form-group ' + field.error ? 'has-error' : '' }, [
-	    	h("label", {for: field.property,  class:"control-label"}, [ utils.fieldTitle(field) ]),
+    	h("div", {className:'form-group ' + field.error ? 'has-error' : '' }, [
+	    	h("label", {for: field.property,  className:"control-label"}, [ utils.fieldTitle(field) ]),
 		    h("div", [ gui ])
 	  	])
   })
 
-	return h("form", {name:"biroForm", class:"form-inline", role:"form"}, [rows])
+	return h("form", {name:"biroForm", className:"biroForm form-inline", role:"form"}, [rows])
 }

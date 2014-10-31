@@ -1,23 +1,23 @@
-.biro-error-padding{
+.biroForm .biro-error-padding{
 	margin-top:10px;
 }
 
-.biro-horizontal-padding{
+.biroForm .biro-horizontal-padding{
 	padding-left:8px;
 }
 
-.help-block{
+.biroForm .help-block{
 	margin-bottom:0px !important;
 }
 
-.form-group{
+.biroForm .form-group{
 	margin-bottom:10px !important;
 }
 
-.form-inline .form-group{
+.biroForm .form-inline .form-group{
 	margin-right:5px !important;
 }
 
-.biro-no-bold{
+.biroForm .biro-no-bold{
 	font-weight: normal !important;
 }

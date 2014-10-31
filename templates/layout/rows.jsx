@@ -17,30 +17,33 @@ module.exports = function(fields, opts){
 		var description
 		var error
 
-		if(field.writable && field.description){
+		console.log('-------------------------------------------');
+		console.log('error: ' + field.error)
+
+		if(field.opts.writable && field.def.description){
 			description = 
 			<div className={ offsetClass }>
-  			<span className="help-block">{ field.description }</span>
+  			<span className="help-block">{ field.def.description }</span>
   		</div>
 		}
 
-		if(field.writable && field.error){
+		if(field.opts.writable && field.error){
 			error = 
 			<div className={ "biro-error-padding " + offsetClass }>
 	    	<span className="label label-danger">{ field.error }</span>
 	    </div>
 		}
 
+		//<div className={'form-group ' + field.error ? 'has-error' : '' }>
+
     var t =
-    	<div className={'form-group ' + field.error ? 'has-error' : '' }>
-	  		<div className="row">
-		    	<label for={ field.property } className={ "control-label " + labelClass }>
-		    		{ utils.fieldTitle(field) }
-		    	</label>
-			    <div className={ guiClass }>{ gui }</div>
-			    {description}
-			    {error}
-			  </div>
+    	<div className={ 'form-group' }>
+	    	<label for={ field.property } className={ "control-label " + labelClass }>
+	    		{ utils.fieldTitle(field.def) }
+	    	</label>
+		    <div className={ guiClass }>{ gui }</div>
+		    {description}
+		    {error}
 	  	</div>
 
 	  return t

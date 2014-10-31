@@ -4,7 +4,7 @@ var Form = require('./form')
 
 function biro(opts){
 	opts = opts || {}
-	
+
 	var state = Form({
 		schema:opts.schema || [],
 		model:opts.model || {},

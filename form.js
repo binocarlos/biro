@@ -25,14 +25,14 @@ function Form(opts){
   })
 
   var modelState = observify(model)
-  var opts = mercury.struct({
+  var formOpts = mercury.struct({
     writable:writable,
     readonly:readonly,
     static:static
   })
 
   var schemaState = mercury.array(schema.map(function(fieldDef){
-    return Field(fieldDef, deep(modelState, fieldDef.property), opts)
+    return Field(fieldDef, deep(modelState, fieldDef.property), formOpts)
   }))
 
   var state = mercury.struct({

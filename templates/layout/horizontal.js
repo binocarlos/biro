@@ -12,5 +12,5 @@ module.exports = function(fields){
 		guiClass:"col-sm-9"
 	})
 
-	return h("form", {name:"biroForm", class:"form-horizontal", role:"form"}, [rows])
+	return h("form", {name:"biroForm", className:"biroForm form-horizontal", role:"form"}, [rows])
 }

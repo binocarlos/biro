@@ -12,10 +12,6 @@ module.exports = function(field){
 		gui = <p className="form-control-static">{ value }</p>
 	}
 	else{
-		console.log('-------------------------------------------');
-		console.log('-------------------------------------------');
-		console.log('textfield')
-		console.dir(field)
 		gui = 
 		<input 
 			type={ field.textType } 
@@ -26,5 +22,5 @@ module.exports = function(field){
 			placeholder={ field.def.placeholder } />
 	}
 
-	return <div className="tester">{ gui }</div>
+	return <div>{ gui }</div>
 }
