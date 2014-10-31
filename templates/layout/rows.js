@@ -3,7 +3,6 @@
  */
 
 var h = require('mercury').h
-var RenderField = require('../../renderfield')
 var utils = require('../../utils')
 
 module.exports = function(fields, opts){
@@ -14,7 +13,7 @@ module.exports = function(fields, opts){
 
 	var fields = fields.map(function(field){
 
-		var gui = RenderField(field)
+		var gui = field.fns.template(field)
 		var description
 		var error
 

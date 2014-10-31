@@ -3,12 +3,11 @@
  */
 
 var h = require('mercury').h
-var RenderField = require('../../renderfield')
 var utils = require('../../utils')
 
 module.exports = function(fields){
 	var rows = fields.map(function(field){
-		var gui = RenderField(field)
+		var gui = field.fns.template(field)
 		
     return 
     	h("div", {class:'form-group ' + field.error ? 'has-error' : '' }, [

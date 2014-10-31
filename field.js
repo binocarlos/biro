@@ -4,42 +4,30 @@ var mercury = require('mercury')
 var observify = require('observify')
 var h = mercury.h
 
-var observProps = [
-  'property',
-  'title',
-  'type',
-  'required',
-  'options',
-  'placeholder',
-  'description'
-]
+function defaultEncode(val){
+  return val
+}
+
+function defaultDecode(val){
+  return val
+}
 
 function Field(def, value, opts){
-
-  var usedef = {}
-
-  observProps.forEach(function(p){
-    usedef[p] = def[p]
-  })
-
-  var fieldDef = observify(usedef)
 
   var events = mercury.input(['change', 'dirty'])
 
   var state = mercury.struct({
-    def:fieldDef,
-    // value is already onservale
+    def:def,
+    opts:opts,
     value:value,
     error:mercury.value(null),
-    // writable is global to the form
-    writable:opts.writable,
-    static:opts.static,
-    readonly:opts.readonly,
     events:events,
     fns:{
-      render:opts.render,
-      encode:opts.encode,
-      decode:opts.decode
+      template:function(state){
+        return h('div', 'this is a field')
+      },
+      encode:opts.encode || defaultEncode,
+      decode:opts.decode || defaultDecode
     }
   })
 

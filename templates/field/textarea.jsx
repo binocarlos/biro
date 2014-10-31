@@ -3,24 +3,28 @@
  */
 
 var h = require('mercury').h
-var templates = require('../../texttemplates')
+var textTemplates = require('../../texttemplates')
 
 module.exports = function(field){
 	
 	var value = field.value
+	var height = field.def.height || 100
 	var gui
 	if(field.static){
 		gui = <p class="form-control-static">{ value }</p>
 	}
 	else{
 		gui = 
-		<input 
-			type={ textTemplates.inputType(field.def.type) } 
-			value={ value } 
+		<textarea 
+			ev-blur={ mercury.event(field.events.blur) } 
+			ev-change={ events.change } 
 			class="form-control" 
 			name={ field.def.property } 
+			style={ "height:" + height + "px" } 
 			id={ field.def.property } 
-			placeholder={ field.def.placeholder } />
+			placeholder={ field.def.placeholder }>
+			{ value }
+		</textarea>
 	}
 
 	return <div>{ gui }</div>
