@@ -2,7 +2,8 @@
  * @jsx h
  */
 
-var h = require('mercury').h
+var mercury = require('mercury')
+var h = mercury.h
 
 module.exports = function(field){
 	
@@ -16,6 +17,10 @@ module.exports = function(field){
 		h("input", 
 			{type: field.textType,  
 			value: value,  
+			'ev-blur': mercury.event(field.events.blur),  
+			'ev-event': mercury.changeEvent(field.events.change, {
+				apples:20
+			}),  
 			className:"form-control", 
 			name: field.def.property,  
 			id: field.def.property,  

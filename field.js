@@ -15,32 +15,32 @@ function defaultDecode(val){
 
 function Field(def, value, opts){
 
-  var events = mercury.input(['change', 'dirty'])
+  var events = mercury.input(['change', 'blur'])
 
   var state = mercury.struct({
     def:def,
     opts:opts,
     value:value,
     error:mercury.value(null),
+    dirty:mercury.value(false),
     events:events,
     fns:{
-      template:templates.fieldTemplate(def),
-      encode:opts.encode || defaultEncode,
-      decode:opts.decode || defaultDecode
+      template:templates.fieldTemplate(def)
     }
   })
 
   events.change(function(data){
 
+    var newValue = data[def.property]
+
     console.log('-------------------------------------------');
-    console.log('new data')
-    console.log(def.property)
-    console.log(data)
+    console.log('change')
+    console.log(newValue)
 
   })
 
-  events.dirty(function(){
-
+  events.blur(function(){
+    state.dirty.set(true)
   })
 
   return state

@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "browserify test.js | testling",
+    "buildexampleall": "npm run converttemplates && npm run buildexample",
     "buildexample": "browserify example/index.js > example/build.js",
     "converttemplates": "mercury-jsx-folder -i templates -o templates"
   },

@@ -14,36 +14,33 @@ module.exports = function(fields, opts){
 	var fields = fields.map(function(field){
 
 		var gui = field.fns.template(field)
-		var description
-		var error
-
-		console.log('-------------------------------------------');
-		console.log('error: ' + field.error)
+		var descriptionDiv
+		var errorDiv
+		var errorClass = ''
 
 		if(field.opts.writable && field.def.description){
-			description = 
+			descriptionDiv = 
 			h("div", {className: offsetClass }, [
   			h("span", {className:"help-block"}, [ field.def.description ])
   		])
 		}
 
-		if(field.opts.writable && field.error){
-			error = 
+		if(field.opts.writable && field.error && field.dirty){
+			errorClass = ' has-error'
+			errorDiv = 
 			h("div", {className: "biro-error-padding " + offsetClass }, [
 	    	h("span", {className:"label label-danger"}, [ field.error ])
 	    ])
 		}
 
-		//<div className={'form-group ' + field.error ? 'has-error' : '' }>
-
     var t =
-    	h("div", {className: 'form-group' }, [
+    	h("div", {className: 'form-group' + errorClass }, [
 	    	h("label", {for: field.property,  className: "control-label " + labelClass }, [
 	    		 utils.fieldTitle(field.def) 
 	    	]),
 		    h("div", {className: guiClass }, [ gui ]),
-		    description,
-		    error
+		     descriptionDiv, 
+		     errorDiv 
 	  	])
 
 	  return t

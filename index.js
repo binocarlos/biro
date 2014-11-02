@@ -1,5 +1,6 @@
 var mercury = require('mercury')
 var stylesheet = require('./stylesheet')
+var observify = require('observify')
 var Form = require('./form')
 
 function biro(opts){
@@ -10,6 +11,8 @@ function biro(opts){
 		model:opts.model || {},
 		layout:opts.layout || 'basic'
 	})
+
+	state.setModel(opts.model)
 
 	return {
 		state:function(){
@@ -26,7 +29,8 @@ function biro(opts){
 		errors:function(){
 			//return state.errors()
 		},
-		model:function(){
+		model:function(data){
+
 			return state.model()
 		}
 	}

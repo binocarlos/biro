@@ -9,7 +9,6 @@ var h = mercury.h
 function Form(opts){
   opts = opts || {}
 
-  var model = opts.model || {}
   var schema = (opts.schema || []).map(utils.mapField)
 
   schema.forEach(function(fieldDef){
@@ -41,7 +40,16 @@ function Form(opts){
     writeable:writable,
     readonly:readonly,
     static:static,
-    layout:mercury.value(opts.layout || 'basic')
+    layout:mercury.value(opts.layout || 'basic'),
+    fns:{
+      setModel:function(data){
+        for(var i=0; i<state.schema.length; i++){
+          var field = state.schema[i]
+          field.dirty.set(false)
+        }
+        state.model.set(observify(data))
+      }
+    }
   })
 
   return state
