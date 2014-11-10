@@ -38,7 +38,6 @@ var schema = [
 	}]
 },{
 	property:'notes',
-	
 	type:'textarea'
 }]
 
@@ -52,13 +51,13 @@ var model = {
 
 var form = biro({
 	layout:'basic',
-	schema:schema,
-	model:model
+	schema:schema
 })
 
+form.setData(model)
 
 function showModel(){
-	console.dir(form.model())
+	console.dir(form.getData())
 }
 
 form.render(document.getElementById('form-render'))

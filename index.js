@@ -8,11 +8,12 @@ function biro(opts){
 
 	var state = Form({
 		schema:opts.schema || [],
-		model:opts.model || {},
 		layout:opts.layout || 'basic'
 	})
 
-	state.setModel(opts.model)
+	if(opts.model){
+		state.fns.setModel(opts.model)
+	}
 
 	return {
 		state:function(){
@@ -29,8 +30,10 @@ function biro(opts){
 		errors:function(){
 			//return state.errors()
 		},
-		model:function(data){
-
+		setData:function(data){
+			return state.fns.setData(data)
+		},
+		getData:function(data){
 			return state.model()
 		}
 	}

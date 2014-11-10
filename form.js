@@ -11,8 +11,9 @@ function Form(opts){
 
   var schema = (opts.schema || []).map(utils.mapField)
 
+  var model = {}
   schema.forEach(function(fieldDef){
-    if(!model[fieldDef.property]) model[fieldDef.property] = null
+    model[fieldDef.property] = null
   })
 
   var static = mercury.value(opts.static ? true : false)
@@ -31,7 +32,7 @@ function Form(opts){
   })
 
   var schemaState = mercury.array(schema.map(function(fieldDef){
-    return Field(fieldDef, deep(modelState, fieldDef.property), formOpts)
+    return Field(fieldDef, formOpts)
   }))
 
   var state = mercury.struct({
@@ -42,12 +43,17 @@ function Form(opts){
     static:static,
     layout:mercury.value(opts.layout || 'basic'),
     fns:{
-      setModel:function(data){
+      setData:function(data){
         for(var i=0; i<state.schema.length; i++){
           var field = state.schema[i]
-          field.dirty.set(false)
+          console.log('-------------------------------------------');
+          console.log('set field value')
+          // do encoding here
+          console.dir(field)
+          //field.value.set(deep(data, field.def.property))
+          //field.dirty.set(false)
+          
         }
-        state.model.set(observify(data))
       }
     }
   })

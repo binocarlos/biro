@@ -13,14 +13,14 @@ function defaultDecode(val){
   return val
 }
 
-function Field(def, value, opts){
+function Field(def, opts){
 
   var events = mercury.input(['change', 'blur'])
 
   var state = mercury.struct({
     def:def,
     opts:opts,
-    value:value,
+    value:mercury.value(null),
     error:mercury.value(null),
     dirty:mercury.value(false),
     events:events,
