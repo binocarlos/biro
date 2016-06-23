@@ -1,9 +1,9 @@
 biro
 ====
 
-make reactive bootstrap forms from a schema
+Form renderer for Redux and React.
 
-![pen picture](https://github.com/binocarlos/biro/raw/master/penparts.jpg "pen picture")
+![pen picture](https://github.com/binocarlos/biro/raw/master/penparts.jpg "biro form renderer")
 
 ## install
 
@@ -13,292 +13,167 @@ Install the module to your project:
 $ npm install biro --save
 ```
 
-Include it in your app.js:
-
-```js
-var biro = require('biro')
-
-// your app goes here
-```
-
-Then compile with [browserify](https://github.com/substack/node-browserify):
-
-```bash
-$ browserify > bundle.js
-```
-
 ## usage
 
-Create a biro form by passing a schema that describes what fields to render and a model for the data:
+There are 2 main concepts in biro:
 
-```js
-var biro = require('biro')
+ * library - a collection of form components that have an opinion about styling
+ * schema - a description of the data -> component mapping used to render a form
 
-var model = {
-	color:'red',
-	email:'bob@builder.com'
+You define your library as a collection of React components.
+
+The schema lists the fields to render for one form - each field should have at least:
+
+ * name - the field name (required)
+ * type - what component to use from the library (default = text)
+ 
+#### redux-form
+
+You must install the biro reducer into your redux store:
+
+```javascript
+import {createStore, combineReducers} from 'redux'
+import {reducer as formReducer} from 'biro'
+const reducers = {
+  // ... your other reducers here ...
+  form: formReducer
+}
+const reducer = combineReducers(reducers)
+const store = createStore(reducer)
+```
+
+#### form factory
+
+Before you can render a form in a component - you must create the form class and provide 2 things:
+
+ * the library of components you want to use
+ * the name of the form that decides where in state.form the data will live
+
+```javascript
+import React, { Component, PropTypes } from 'react'
+import Biro from 'biro'
+import standardLibrary from 'biro/lib/standard'
+
+const FORM_NAME = 'contact'
+```
+
+In this example we are using the standard biro library.  A library is a plain object where the values are React components.
+
+#### schema
+
+Now that we have a React component - we can render it using a schema:
+
+```javascript
+const schema = [
+	'firstname',   // this is turned into {type:'text',name:'firstname'}
+	'surname',
+	'email',
+	{
+		type:'text',
+		name:'phone'
+	}
+]
+```
+
+#### render form
+
+```javascript
+class MyForm extends Component {
+	render() {
+		return (
+			<div>
+				<Biro name={FORM_NAME} library={standardLibrary} schema={schema} />
+			</div>
+		)
+	}
 }
 
-// a schema is an array of fields each describing an input to render
-var schema = [
-	// fields can be strings which are mapped onto the fieldname
-	'fullname',
-{
-	// the field name is the property of the model
-	property:'email',
+export default MyForm
+```
 
-	// the type describes what type of renderer to use
-	type:'email',
+This would render the form and update `state.form.contact` with the values.
 
-	// ensure the user provides a value
-	required:true,
+#### layout components
 
-	// display this title rather than the name uppercased
-	title:'Email Address',
+The following default library components are used to render the layout of the form.
 
-	// display this text below the field
-	description:'Some text'
-},{
-	property:'color',
-	type:'radio',
+ * row - renders markup around the component itself such as cols, title etc
+ * form - renders an array of components
 
-	// for fields that required a list of options (radio, select)
-	options:['red', 'green', 'blue'],
-	required:true,
-	description:'choose a color'
-},{
-	property:'age',
-	type:'number',
-	required:true,
+By including your own library items you can control the form and row rendering of the form.
 
-	// custom validate function returns true or false
-	validate:function()
-	description:'Type a number'
-},{
-	property:'dob',
-	type:'month'
-},{
-	property:'url',
-	type:'url'
-},{
-	property:'subscribe',
-	type:'checkbox'
-},{
-	property:'food',
-	type:'select',
-	required:true,
+```javascript
+import standardLibrary from 'biro/lib/standard'
 
-	// options can be strings or objects with a title and value
-	options:['orange', 'apple', {
-		title:'Pear',
-		value:'pear'
-	}]
-},{
-	property:'notes',
-	type:'textarea'
-}]
-
-var form = biro({
-	schema:schema,
-	model:model,
-	layout:'horizontal'	
+const customLayoutLibrary = Object.assign({}, standardLibrary, {
+	customRow:function(props){
+		return (
+			<div>
+				<span>{props.field.title}</span>
+				{props.children}
+			</div>
+		)
+	}
 })
 
-
-// pass a function that is run when the model has been changed
-form.change(function(model, field){
-	console.log('form has changed')
-	console.dir(model)
-
-	console.log('errors:')
-	console.dir(form.errors())
-})
-
-function click(){
-
-	var errors = form.errors()
-
-	if(errors.length>0){
-		console.log('there are ' + errors.length + ' errors')
+class MyForm extends Component {
+	render() {
+		return (
+			<div>
+				<Biro name={FORM_NAME} library={customLayoutLibrary} schema={schema} rowrenderer="customRow" />
+			</div>
+		)
 	}
-	else{
-		console.log('the data is:')
-		console.dir(form.model())
+}
+
+export default MyForm
+```
+
+You can also use specific rowRenders for a single field:
+
+
+```javascript
+const schema = [
+	{
+		type:'text',
+		name:'phone',
+		rowrenderer:'customRow'
 	}
-	
-}
-
-document.getElementById('click-button').addEventListener(click)
-
-form.render(document.getElementById('form-div'))
+]
 ```
 
-Include the biro form in a page:
+#### library components
 
-```html
-<!doctype html>
-<body>
+A library component is a React component with the following key properties:
 
-<div id="form-div"></div>
-<button type="button" id="click-button">click</button>
+ * value
+ * error
+ * field
+ * update
 
-<script src="build.js"></script>
-</body>
-```
+```javascript
+import React, { Component, PropTypes } from 'react'
 
-## use with mercury app
+class MyElement extends Component {
 
-You can use a biro form in a larger mercury app:
-
-```js
-var biro = require('biro')
-var mercury = require('mercury')
-var h = mercury.h
-
-function AppState(opts){
-
-	var form = biro({
-		schema:opts.schema,
-		model:opts.model,
-		layout:'horizontal'
-	})
-
-	// our top level app state
-	return mercury.struct({
-		value:mercury.value(22),
-		// a lower-level form state
-		form:form.state()
-	})
+	handleChange(e) {
+		this.props.update(e.target.value)
+	}
+	render() {
+		return (
+			<input type="text" onChange={this.handleChange} value={this.props.value} />
+		)
+	}
 }
 
-function AppView(state){
-	h('div', [
-		h('div', state.value),
-		h('div', [
-			biro.view(state.form)
-		])
-	])
-}
-
-mercury.app(document.body, AppState(), AppView);
+export default MyElement
 ```
 
-## api
+#### default components
 
-#### `var form = biro(opts)`
-
-Render a form with the given schema to a HTML element `elem`.
-
-The model is used as the form data and opts is an object with the following properties:
-
- * schema - an array of field definitions
- * model - an object with the initial data
- * readonly - boolean to render the form with a non-editable interface
- * static - display form values with no inputs
- * layout - string - basic|horizontal|inline - decide what layout to use
- * autoRename - string - rename observ [blacklisted properties](https://github.com/maxogden/observify#blacklisted-properties)
-
-#### `biro.view(state)`
-
-The mercury view function for use in a larger mercury app.
-
-#### `form.render(DOMElement)`
-
-Render the form to a given element.
-
-#### `form.change(function(model, field){})`
-
-Pass a function that is called when the form data is changed.
-
-The model is the new updated model and the field is the field that has changed.
-
-#### `form.model()`
-
-Get a POJO for the current form model.
-
-#### `form.state()`
-
-Get a mercury struct for the current form state.
-
-#### `form.errors()`
-
-Return an array of errors with the current form - an empty array means there are no errors.
-
-Each error is an object:
-
-```js
-{
-	field:'name',
-	error:'Name is required'
-}
-```
-
-## schema
-
-The schema is an array of field definitions where each field is an object with the following fields:
-
-##### `property`
-
-The name of the field from the model.  This can be delimited by dots to access deep nested properties.
-
-##### `title`
-
-The title to display next to the form field.
-
-##### `type`
-
-What data type is the field.  You can either use a biro built-in type or a custom type with a custom template.
-
-The built in types are:
+The following components are supplied by default if missing from the library:
 
  * text
- * number
- * email
- * select
- * textarea
- * checkbox
- * radio
- * select
- * url
- * date
- * time
- * datetime
- * month
- * week
-
-##### `required`
-
-A boolean to indicate there must be a value provided for this field.
-
-##### `validate`
-
-A regular expression string or a function that will validate the value for a field.
-
-##### `encode`
-
-A function that will turn the model value into the value to use for the template.
-
-##### `decode`
-
-A function that will turn the template value into the value to assign to the model.
-
-##### `options`
-
-An array of values to use as options for `radio` and `select` types.
-
-Each value can be a string or an object with `title` and `value` properties.
-
-##### `placeholder`
-
-A string to display when no value is supplied for the field.
-
-##### `description`
-
-A string to display underneath the field to provide help to the user.
-
-##### `render`
-
-A function that accepts a state and returns a virtual DOM element for the interface for that field.
 
 ## license
 
