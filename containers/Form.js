@@ -6,17 +6,23 @@ import FormComponent from '../components/Form'
 export class Form extends Component {
   render() {
     return (
-      <div>this is a form</div>
+      <FormComponent {...this.props} />
     )
   }
 }
 
 function mapStateToProps(state) {
-  return {}
+  return {
+    formstate:state.form.apples
+  }
 }
 
 function mapDispatchToProps(dispatch) {
-  return {}
+  return {
+    fieldupdate:function(){
+
+    }
+  }
 }
 
 export default connect(

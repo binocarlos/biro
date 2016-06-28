@@ -16,10 +16,14 @@ function getRenderer(type, value){
 export default class Form extends Component {
   render() {
 
+    // from mapStateToProps
     var formState = this.props.formstate || {}
+
+    // from mapDispatchToProps
     var fieldUpdate = this.props.fieldupdate || function(){}
+
     var formData = formState.data || {}
-    var fieldData = formState.fields || {}
+    var formMeta = formState.meta || {}
 
     var formRenderer = getRenderer('form', this.props.formrenderer)
     var rowRenderer = getRenderer('row', this.props.rowrenderer)
@@ -27,16 +31,18 @@ export default class Form extends Component {
     var schema = Schema(this.props.schema)
     var library = Library(this.props.library)
 
-    var blankcounter = 0
+    var counter = 0
 
     function renderRow(field){
 
-      var name = field.name || 'field' + blankcounter++
+      counter++
+
+      var name = field.name || 'field' + counter
       var title = (field.title || field.name).replace(/^\w/, function(c){
         return c.toUpperCase()
       })
       var fieldRenderer = library[field.type] || library.text
-      var fieldMeta = fieldData[name] || {}
+      var fieldMeta = formMeta[name] || {}
       var value = formData[name]
       var error = fieldMeta.error || ''
 
@@ -52,25 +58,17 @@ export default class Form extends Component {
         })
       }
 
-      return (
-        <rowRenderer title={title}>
-          <fieldRenderer 
-            value={value} 
-            error={error} 
-            schema={field} 
-            update={update} />
-        </rowRenderer>
-      )
-
-      
+      return React.createElement(rowRenderer, {
+        title:title,
+        key:'field' + counter
+      }, React.createElement(fieldRenderer, {
+        value:value,
+        error:error,
+        schema:field,
+        update:update
+      }))
     }
 
-    return (
-      <div>
-        <formRenderer>
-          {schema.map(renderRow)}
-        </formRenderer>
-      </div>
-    )
+    return React.createElement(formRenderer, {}, schema.map(renderRow))
   }
 }

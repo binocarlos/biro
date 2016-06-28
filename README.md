@@ -231,7 +231,7 @@ The state object written to `state.form.XXXX` takes the following shape:
 		email:'bob@bob.com',
 		address:null
 	},
-	fields:{
+	meta:{
 		name:{
 			dirty:true,
 			error:false
