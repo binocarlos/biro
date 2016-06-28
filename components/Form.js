@@ -16,6 +16,8 @@ function getRenderer(type, value){
 export default class Form extends Component {
   render() {
 
+    var formName = this.props.name
+
     // from mapStateToProps
     var formState = this.props.formstate || {}
 
@@ -45,14 +47,16 @@ export default class Form extends Component {
       var fieldMeta = formMeta[name] || {}
       var value = formData[name]
       var error = fieldMeta.error || ''
+      var dirty = fieldMeta.dirty
 
       function update(val){
         var error = false
         if(typeof(field.validate)==='function'){
-          error = field.validate(val)
+          error = field.validate(val, dirty)
         }
         fieldUpdate({
-          name:name,
+          fieldname:name,
+          formname:formName,
           value:value,
           error:error
         })

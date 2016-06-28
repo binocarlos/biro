@@ -33,14 +33,16 @@ You must install the biro reducer into your redux store:
 
 ```javascript
 import {createStore, combineReducers} from 'redux'
-import {reducer as formReducer} from 'biro'
+import formReducer from 'biro/reducer'
 const reducers = {
   // ... your other reducers here ...
-  form: formReducer
+  biro: formReducer
 }
 const reducer = combineReducers(reducers)
 const store = createStore(reducer)
 ```
+
+NOTE - the reducer *must* be under the `biro` property
 
 #### form factory
 

@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 
+import { fieldUpdate } from '../actions/form'
 import FormComponent from '../components/Form'
 
 export class Form extends Component {
@@ -11,16 +12,20 @@ export class Form extends Component {
   }
 }
 
-function mapStateToProps(state) {
+function mapStateToProps(state, ownProps) {
+
+  var allFormState = state.biro
+  var formState = allFormState[ownProps.name]
+
   return {
-    formstate:state.form.apples
+    formstate:formState
   }
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    fieldupdate:function(){
-
+    fieldupdate:function(props){
+      dispatch(fieldUpdate(props))
     }
   }
 }
