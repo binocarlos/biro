@@ -4,6 +4,13 @@
   "description": "redux + material ui forms",
   "main": "index.js",
   "scripts": {
+    "clean": "mkdir -p example/dist && rm -rf example/dist/*",
+    "indexpage": "cp example/index.html example/dist/index.html",
+    "assets": "npm run indexpage",
+    "watch": "WEBPACK_ARGS=--watch npm run webpack",
+    "prewebpack": "npm run clean && npm run assets",
+    "webpack": "./node_modules/.bin/webpack $WEBPACK_ARGS",
+    "build": "NODE_ENV=development npm run webpack",
     "test": "NODE_ENV=test babel-node node_modules/mocha/bin/_mocha --recursive --require ./test/setup.js test",
     "test:watch": "npm test -- --watch"
   },

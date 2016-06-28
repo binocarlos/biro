@@ -1,10 +1,11 @@
-import { BIRO_FIELD_UPDATE } from '../actions/form'
+import { BIRO_FIELD_UPDATE } from './actions/form'
 
 const initialState = {
 
 }
 
 export default function update(state = initialState, action) {
+
   switch (action.type) {
     case BIRO_FIELD_UPDATE:
 
@@ -31,7 +32,3 @@ export default function update(state = initialState, action) {
       return state
   }
 }
-
-
-state.form.contact
-state.form.product

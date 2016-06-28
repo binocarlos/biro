@@ -3,7 +3,7 @@ import React, { PropTypes, Component } from 'react'
 class TextField extends Component {
 
   handleChange(e) {
-    this.props.onChange(e.target.value)
+    this.props.update(e.target.value)
   }
 
   render() {
