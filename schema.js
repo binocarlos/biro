@@ -3,9 +3,12 @@
 export default function schema(fields) {
   fields = fields || []
   return fields.map(function(field){
-    return typeof(field)==='string' ? {
-      name:field,
-      type:'text'
+    var ret = typeof(field)==='string' ? {
+      name:field
     } : field
+
+    ret.type = ret.type || 'text'
+
+    return ret
   })
 }
