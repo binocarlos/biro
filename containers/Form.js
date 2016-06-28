@@ -1,6 +1,8 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 
+import FormComponent from '../components/Form'
+
 export class Form extends Component {
   render() {
     return (

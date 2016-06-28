@@ -151,9 +151,9 @@ A full list of the properties you can use:
  * library - the name to Component map of the field renderers
  * schema - the list of the fields to render (must have 'name' and 'type')
  * initialdata - the existing data to initiate the form with
- * rowrenderer - the component to use to render a row
  * formrenderer - the component to use to render the whole form
-
+ * rowrenderer - the component to use to render a row
+ 
 #### library components
 
 A library component is a React component with the following key properties:
