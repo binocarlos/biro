@@ -5,8 +5,8 @@ import ReactDOM from 'react-dom'
 import TestUtils from 'react-addons-test-utils'
 import {isComponentOfType,findWithClass} from 'react-shallow-testutils'
 
-import { Form as Biro } from '../../containers/Form'
-import standardLibrary from '../../library/standard'
+import { Form as Biro } from '../../lib/containers/Form'
+import standardLibrary from '../../lib/library/standard'
 
 const FORM_SCHEMA = [
   'name',

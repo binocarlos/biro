@@ -1,4 +1,3 @@
-import "babel-polyfill"
-import Form from './containers/Form'
+import Biro from './lib'
 
-export default Form
+export default Biro

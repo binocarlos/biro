@@ -1,34 +1,3 @@
-import { BIRO_FIELD_UPDATE } from './actions/form'
+import reducer from './lib/reducer'
 
-const initialState = {
-
-}
-
-export default function update(state = initialState, action) {
-
-  switch (action.type) {
-    case BIRO_FIELD_UPDATE:
-
-      var formName = action.formname
-      var fieldName = action.fieldname
-
-      var formState = state[formName] || {}
-      var data = formState.data || {}
-      var meta = formState.meta || {}
-
-      data[fieldName] = action.value
-      meta[fieldName] = {
-        error:action.error,
-        dirty:true
-      }
-
-      formState.data = data
-      formState.meta = meta
-      var ret = Object.assign({}, state)
-      ret[formName] = formState
-
-      return ret
-    default:
-      return state
-  }
-}
+export default reducer

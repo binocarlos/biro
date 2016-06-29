@@ -1,7 +1,3 @@
-import TextField from './components/TextField'
+import Library from '../../lib/library/standard'
 
-const standardLibrary = {
-  text:TextField
-}
-
-export default standardLibrary
+export default Library

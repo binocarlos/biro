@@ -4,8 +4,8 @@ import ReactDOM from 'react-dom'
 import { Provider } from 'react-redux'
 import { applyMiddleware, compose, createStore, combineReducers } from 'redux'
 
-import biroreducer from '../reducer'
-import Biro from '../'
+import biroreducer from '../lib/reducer'
+import Biro from '../lib'
 
 const SCHEMA = [
   'firstname',   // this is turned into {type:'text',name:'firstname'}

@@ -1,7 +1,7 @@
 import expect from 'expect'
 import React from 'react'
 import TestUtils from 'react-addons-test-utils'
-import TextField from '../../library/standard/components/TextField'
+import TextField from '../../lib/library/standard/components/TextField'
 
 function setup(value){
   var props = {
