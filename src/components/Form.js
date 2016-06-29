@@ -67,6 +67,7 @@ export default class Form extends Component {
         title:title,
         key:'field' + counter
       }, React.createElement(fieldRenderer, {
+        title:title,
         value:value,
         error:error,
         schema:field,

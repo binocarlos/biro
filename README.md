@@ -164,6 +164,7 @@ A full list of the properties you can use:
 
 A library component is a React component with the following key properties:
 
+ * title - the title of the field
  * value - the current form value to display
  * error - the current error from validation
  * schema - the schema entry for this field
