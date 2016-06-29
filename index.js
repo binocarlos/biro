@@ -1,10 +1,3 @@
-var angular = require('angular-bsfy')
-var stylesheet = require('./stylesheet')
-require('./sanitize')
+import Form from './containers/Form'
 
-module.exports = angular
-	.module('biro', [
-    'ngSanitize'
-  ])
-  .directive('biroForm', require('./form'))
-  .directive('biroField', require('./field'))
+export default Form

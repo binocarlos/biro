@@ -1,9 +1,9 @@
 biro
 ====
 
-make angular bootstrap forms from a schema
+Form renderer for Redux and React.
 
-![pen picture](https://github.com/binocarlos/biro/raw/master/penparts.jpg "pen picture")
+![pen picture](https://github.com/binocarlos/biro/raw/master/penparts.jpg "biro form renderer")
 
 ## install
 
@@ -13,210 +13,244 @@ Install the module to your project:
 $ npm install biro --save
 ```
 
-Include it in your app.js:
-
-```js
-var angular = require('angular-bsfy')
-var biro = require('biro')
-
-var app = angular.module('myApp',[
-    biro.name
-])
-```
-
-Then compile with [browserify](https://github.com/substack/node-browserify) and [brfs](https://github.com/substack/brfs):
-
-```bash
-$ browserify -t brfs app.js > bundle.js
-```
-
 ## usage
 
-Biro forms are created from a schema which controls what form fields will be shown for a model.
+There are 2 main concepts in biro:
 
-```js
-var angular = require('angular-bsfy')
-var biro = require('biro')
+ * library - a collection of form components that have an opinion about styling
+ * schema - a description of the data -> component mapping used to render a form
 
-var app = angular.module('myApp',[
-    biro.name
-])
+You define your library as a collection of React components.
 
-app.controller('MyCtrl', function($scope){
+The schema lists the fields to render for one form - each field should have at least:
 
-	$scope.schema = [
-		'name',
+ * name - the field name (required)
+ * type - what component to use from the library (default = text)
+ 
+#### reducer
+
+You must install the biro reducer into your redux store:
+
+```javascript
+import {createStore, combineReducers} from 'redux'
+import formReducer from 'biro/reducer'
+const reducers = {
+  // ... your other reducers here ...
+  biro: formReducer
+}
+const reducer = combineReducers(reducers)
+const store = createStore(reducer)
+```
+
+NOTE - the reducer *must* be under the `biro` property
+
+#### form factory
+
+Before you can render a form in a component - you must create the form class and provide 2 things:
+
+ * the library of components you want to use
+ * the name of the form that decides where in state.form the data will live
+
+In this example we are using the standard biro library.
+
+A library is a plain object where the values are React components.
+
+We also have a schema which describes the fields that will appear.
+
+```javascript
+import React, { Component, PropTypes } from 'react'
+import Biro from 'biro'
+import standardLibrary from 'biro/lib/standard'
+
+const FORM_NAME = 'contact'
+
+const SCHEMA = [
+	'firstname',   // this is turned into {type:'text',name:'firstname'}
+	'surname',
+	'email',
 	{
-		name:'email',
-		type:'email',
-		required:true,
-		title:'Email Address',
-		description:'Some text'
-	},{
-		name:'color',
-		type:'radio',
-		options:['red', 'green', 'blue'],
-		required:true,
-		description:'choose a color'
-	},{
-		name:'age',
-		type:'number',
-		required:true,
-		description:'Type a number'
-	},{
-		name:'dob',
-		type:'month'
-	},{
-		name:'url',
-		type:'url'
-	},{
-		name:'subscribe',
-		type:'checkbox'
-	},{
-		name:'food',
-		type:'select',
-		required:true,
-		options:['orange', 'apple', {
-			title:'Pear',
-			value:'pear'
-		}]
-	},{
-		name:'notes',
-		type:'textarea'
-	}]
-	
-	$scope.model = {
-		color:'red',
-		email:'bob@builder.com'
+		type:'text',
+		name:'phone'
 	}
+]
 
-	$scope.click = function(){
-		console.dir($scope.model)
+class MyForm extends Component {
+	render() {
+		return (
+			<div>
+				<Biro 
+					name={FORM_NAME} 
+					initialdata={this.props.data} 
+					library={standardLibrary} 
+					schema={SCHEMA} />
+			</div>
+		)
 	}
-	
+}
+
+export default MyForm
+```
+
+This would render the form and update `state.form.contact` with the values.
+
+#### layout components
+
+The following default library components are used to render the layout of the form.
+
+ * row - renders markup around the component itself such as cols, title etc
+ * form - renders an array of components
+
+```javascript
+import standardLibrary from 'biro/lib/standard'
+
+class MyRowRenderer extends Component {
+	render() {
+		return (
+			<div>
+				<span>{this.props.field.title}</span>
+				{this.props.children}
+			</div>
+		)
+	}
+}
+
+class MyFormRenderer extends Component {
+	render() {
+		return (
+			<div>
+				This is a {this.props.title} form
+				<hr />
+				{this.props.children}
+			</div>
+		)
+	}
+}
+
+class MyForm extends Component {
+	render() {
+		return (
+			<div>
+				<Biro 
+					name={FORM_NAME} 
+					initialdata={this.props.data} 
+					library={standardLibrary} 
+					schema={SCHEMA}
+					rowrenderer={MyRowRenderer}
+					formrenderer={MyFormRenderer} />
+			</div>
+		)
+	}
+}
+
+export default MyForm
+```
+
+#### API
+
+A full list of the properties you can use:
+
+ * name - control where in the state the data is written
+ * library - the name to Component map of the field renderers
+ * schema - the list of the fields to render (must have 'name' and 'type')
+ * initialdata - the existing data to initiate the form with
+ * formrenderer - the component to use to render the whole form
+ * rowrenderer - the component to use to render a row
+ 
+#### library components
+
+A library component is a React component with the following key properties:
+
+ * value - the current form value to display
+ * error - the current error from validation
+ * schema - the schema entry for this field
+ * update - a function to run when the user changes the value
+
+It is responsible for renderering the GUI for the form field - not the title of other wrapping markup.
+
+```javascript
+import React, { Component, PropTypes } from 'react'
+
+class MyElement extends Component {
+
+	handleChange(e) {
+		this.props.update(e.target.value)
+	}
+	render() {
+		return (
+			<input type="text" onChange={this.handleChange} value={this.props.value} />
+		)
+	}
+}
+
+export default MyElement
+```
+
+You map components into a library to use for a form - here is an example of us creating a custom library using `MyElement`:
+
+```javascript
+import standardLibrary from 'biro/lib/standard'
+import MyElement from './library/myelement'
+
+var customLibrary = Object.assign({}, standardLibrary, {
+	myelement:MyElement
 })
 ```
 
-Include the biro form in a page:
+#### schema
 
-```html
-<body ng-app="MyApp" ng-controller="MyCtrl">
+The fields each field should have in the schema:
 
-<div>
-	<biro-form schema="schema" modle="model" />
-	<button type="button" ng-click="click()">click</button>
-</div>
+ * name - what field of the data object to write the value to
+ * type - what library component to use to render the field (default to 'text')
+ * title - what to display next to the field (default to name)
+ * validate - a function to validate the user entry
 
-<script src="build.js"></script>
-</body>
-```
+The schema entry can have any other fields also - for example a select list would need some options.
 
-## directives
+The schema data is accessible from the React component using `this.props.schema`.
 
-#### `biro-form`
+The validate function has the following signature and returns a falsy value for success or a string indicating the error:
 
-Render an array of fields into a form.
-
-```js
-{
-  srcschema:'=schema',
-  model:'=',
-  readonly:'@',
-  static:'@',
-  layout:'@'
+```javascript
+function(value, dirty){
+	if(!value || value.indexOf('*')<0){
+		return 'must contain an asterix'
+	}
+	else {
+		return false
+	}
 }
 ```
 
-`schema` is an array of field definitions (more below).
+#### state
 
-`model` is an object that is the current data being edited.
+The state object written to `state.form.XXXX` takes the following shape:
 
-`readonly` is a string either `true` or `false` (or any other value than true).
-
-`static` is a string (true or false|other) that will display only values not form fields.
-
-`layout` is a string that is one of `basic`, `horizontal` or `inline`.
-
-#### `biro-field`
-
-Render a single field.
-
-```js
+```javascript
 {
-  field:'=',
-  model:'=',
-  readonly:'=',
-  static:'='
+	data:{
+		name:'bob',
+		email:'bob@bob.com',
+		address:null
+	},
+	meta:{
+		name:{
+			dirty:true,
+			error:false
+		},
+		email:{
+			dirty:false,
+			error:false
+		},
+		address:{
+			dirty:true,
+			error:'cannot be blank'
+		}
+	}
 }
 ```
 
-
-#### `schema`
-
-The schema is an array of field definitions where each field is an object with the following fields:
-
-##### `name`
-
-The name of the field from the model.  This can be delimited by dots to access deep nested properties.
-
-##### `title`
-
-The title to display next to the form field.
-
-##### `type`
-
-What data type is the field.  You can either use a biro built-in type or a custom type with a custom template.
-
-The built in types are:
-
- * text
- * number
- * email
- * select
- * textarea
- * checkbox
- * radio
- * select
- * url
- * date
- * time
- * datetime
- * month
- * week
-
-##### `template`
-
-A string that is used to render the gui for the field.  Use this to render custom field types.
-
-##### `required`
-
-A boolean to indicate there must be a value provided for this field.
-
-##### `validate`
-
-A regular expression string or a function that will validate the value for a field.
-
-##### `encode`
-
-A function that will turn the model value into the value to use for the template.
-
-##### `decode`
-
-A function that will turn the template value into the value to assign to the model.
-
-##### `options`
-
-An array of values to use as options for `radio` and `select` types.
-
-Each value can be a string or an object with `title` and `value` properties.
-
-##### `placeholder`
-
-A string to display when no value is supplied for the field.
-
-##### `description`
-
-A string to display underneath the field to provide help to the user.
+This lets you use the `.data` property for POSTing to an API and to analyse the `.fields` property for errors.
 
 ## license
 

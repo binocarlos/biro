@@ -1,61 +1,43 @@
-var angular = require('angular-bsfy')
-var biro = require('../')
+import 'babel-polyfill'
+import React from 'react'
+import ReactDOM from 'react-dom'
+import { Provider } from 'react-redux'
+import { applyMiddleware, compose, createStore, combineReducers } from 'redux'
 
-var app = angular.module('biro-example',[
-    biro.name
-])
-.controller('biro-ctrl', function($scope){
-	$scope.schema = [
-		'name',
-	{
-		name:'email',
-		type:'email',
-		required:true,
-		title:'Email Address',
-		description:'Some text'
-	},{
-		name:'color',
-		type:'radio',
-		options:['red', 'green', 'blue'],
-		required:true,
-		description:'choose a color'
-	},{
-		name:'age',
-		type:'number',
-		required:true,
-		description:'Type a number'
-	},{
-		name:'dob',
-		type:'month'
-	},{
-		name:'url',
-		type:'url'
-	},{
-		name:'subscribe',
-		type:'checkbox'
-	},{
-		name:'food',
-		type:'select',
-		required:true,
-		options:['orange', 'apple', {
-			title:'Pear',
-			value:'pear'
-		}]
-	},{
-		name:'notes',
-		
-		type:'textarea'
-	}]
+import biroreducer from '../reducer'
+import Biro from '../'
 
-	$scope.model = {
-		name:'bob',
-		color:'red',
-		food:'apple',
-		subscribe:true,
-		notes:'This is some notes\n\n\n\non some lines'
-	}
+const SCHEMA = [
+  'firstname',   // this is turned into {type:'text',name:'firstname'}
+  'surname',
+  'email',
+  {
+    type:'text',
+    name:'phone'
+  }
+]
 
-	$scope.showmodel = function(){
-		console.dir($scope.model)
-	}
+const reducer = combineReducers({
+  biro: biroreducer
 })
+
+/*
+  store
+*/
+const finalCreateStore = compose(
+  applyMiddleware.apply(null, [])
+)(createStore)
+
+const store = finalCreateStore(reducer)
+
+/*
+  routes
+*/
+ReactDOM.render(  
+  <Provider store={store}>
+    <Biro 
+          name="contact"
+          schema={SCHEMA} />
+  </Provider>,
+  document.getElementById('mount')
+)
