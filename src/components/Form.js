@@ -22,6 +22,9 @@ export default class Form extends Component {
     // from mapStateToProps
     var formState = this.props.formstate || {}
 
+    // overall validate function
+    var validateForm = this.props.validate || function(){}
+
     // from mapDispatchToProps
     var fieldUpdate = this.props.fieldupdate || function(){}
 
@@ -50,29 +53,53 @@ export default class Form extends Component {
       var error = fieldMeta.error || ''
       var dirty = fieldMeta.dirty
 
-
-      function update(val){
+      function runChange(isBlur, val){
+        val = isBlur ? value : val
         var error = false
-        if(typeof(field.validate)==='function'){
-          error = field.validate(val, dirty)
+        var errors = {}
+        if(isBlur){
+          if(typeof(field.validate)==='function'){
+            error = field.validate(val)
+            if(typeof(error) !== 'string') error = null
+          }
+          
+          var checkData = Object.assign({}, formData)
+          checkData[name] = val
+          var checkMeta = Object.assign({}, formMeta)
+          checkMeta[name] = {
+            dirty:true,
+            error:error
+          }
+          errors = validateForm(checkData, checkMeta)
         }
         fieldUpdate({
           fieldname:name,
           formname:formName,
           value:val,
-          error:error
+          error:error,
+          errors:errors,
+          dirty:isBlur
         })
       }
 
+      function update(val){
+        runChange(false, val)
+      }
+
+      function blur(val){
+        runChange(true)
+      }
+
       return React.createElement(rowRenderer, {
-        title:title,
+        title,
         key:'field' + counter
       }, React.createElement(fieldRenderer, {
-        title:title,
-        value:value,
-        error:error,
+        title,
+        value,
+        error,
         schema:field,
-        update:update
+        update,
+        blur
       }))
     }
 

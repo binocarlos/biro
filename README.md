@@ -156,9 +156,85 @@ A full list of the properties you can use:
  * name - control where in the top-level state the data for this form is written
  * library - the name to Component map of the field renderers
  * schema - the list of the fields to render (must have 'name' and 'type')
+ * validate - an overall validation function that can work with all form data
  * formrenderer - the component to use to render the whole form
  * rowrenderer - the component to use to render a row
- 
+ * noprocess - do not apply the standard schema processors
+
+#### schema
+
+The fields each field should have in the schema:
+
+ * name - what field of the data object to write the value to
+ * type - what library component to use to render the field (default to 'text')
+ * title - what to display next to the field (default to name)
+ * validate - a function to validate the value
+
+The schema entry can have any other fields also - for example a select list would need some options.
+
+The schema data is accessible from the React component using `this.props.schema`.
+
+The validate function has the following signature and returns a falsy value for success or a string indicating the error:
+
+```javascript
+function(value){
+	if(!value || value.indexOf('*')<0){
+		return 'must contain an asterix'
+	}
+	else {
+		return false
+	}
+}
+```
+
+#### form validation
+
+Each of the schema fields can have their own validation functions but sometimes you want to validate in the context of the whole form.  For example - a user registration might contain a `password-confirm` form field - you would want to compare `form.password` with `form.password2` to check the validation.
+
+The `validate` property of the form is a function that accepts an object (the data entered into the form) and returns an object with a property for each of the errors.
+
+```javascript
+function(data, meta){
+	var ret = {}
+	if(data.password!=data.password2 && meta.password.dirty && meta.password2.dirty){
+		ret.password = 'passwords must match'
+	}
+	return ret
+}
+```
+
+#### schema processors
+
+By mapping the schema you give to a form and injecting various validation functions, you can create lots of various input types quickly:
+
+```javascript
+function validateEmail(val){
+	return val.indexOf('@')>0 ? null : 'invalid email address'
+}
+
+var schema = [{
+	name:'name'
+},{
+	name:'email',
+	type:'email'
+}]
+
+schema = schema.map(field => {
+	if(field.type=='email'){
+		field.validate = validateEmail
+		field.type = 'text'
+	}
+	return field
+})
+```
+
+There are some built-in schema processors that will apply commonly useful features (unless you set the noprocess property):
+
+ * required - setting `required:true` in the schema will apply a required validation
+ * type email,number
+
+NOTE - the default processors are TBC
+
 #### library components
 
 A library component is a React component with the following key properties:
@@ -168,6 +244,7 @@ A library component is a React component with the following key properties:
  * error - the current error from validation
  * schema - the schema entry for this field
  * update - a function to run when the user changes the value
+ * blur - a function to run when the user blurs focus (this will trigger validation)
 
 It is responsible for renderering the GUI for the form field - not the title of other wrapping markup.
 
@@ -179,9 +256,14 @@ class MyElement extends Component {
 	handleChange(e) {
 		this.props.update(e.target.value)
 	}
+
+	handleBlur(e) {
+		this.props.blur()
+	}
+
 	render() {
 		return (
-			<input type="text" onChange={this.handleChange} value={this.props.value} />
+			<input type="text" onChange={this.handleChange.bind(this)} onBlur={this.handleBlur.bind(this)} value={this.props.value} />
 		)
 	}
 }
@@ -200,31 +282,7 @@ var customLibrary = Object.assign({}, standardLibrary, {
 })
 ```
 
-#### schema
 
-The fields each field should have in the schema:
-
- * name - what field of the data object to write the value to
- * type - what library component to use to render the field (default to 'text')
- * title - what to display next to the field (default to name)
- * validate - a function to validate the user entry
-
-The schema entry can have any other fields also - for example a select list would need some options.
-
-The schema data is accessible from the React component using `this.props.schema`.
-
-The validate function has the following signature and returns a falsy value for success or a string indicating the error:
-
-```javascript
-function(value, dirty){
-	if(!value || value.indexOf('*')<0){
-		return 'must contain an asterix'
-	}
-	else {
-		return false
-	}
-}
-```
 
 #### state
 

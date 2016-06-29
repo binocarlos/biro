@@ -23,8 +23,14 @@ export default function update(state = initialState, action = {}) {
       data[fieldName] = action.value
       meta[fieldName] = {
         error:action.error || false,
-        dirty:true
+        dirty:action.dirty || false
       }
+
+      Object.keys(action.errors || {}).forEach(function(key){
+        var fieldmeta = getObject(meta[fieldName])
+        fieldmeta.error = action.errors[key]
+        meta[fieldName] = fieldmeta
+      })
 
       formState.data = data
       formState.meta = meta
