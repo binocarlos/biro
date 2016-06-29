@@ -1,3 +1,1 @@
-import Biro from './lib'
-
-export default Biro
+module.exports = require('./lib')

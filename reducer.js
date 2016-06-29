@@ -1,3 +1,1 @@
-import reducer from './lib/reducer'
-
-export default reducer
+module.exports = require('./lib/reducer')

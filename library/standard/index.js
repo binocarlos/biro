@@ -1,3 +1,1 @@
-import Library from '../../lib/library/standard'
-
-export default Library
+module.exports = require('../../lib/library/standard')
