@@ -4,6 +4,10 @@ const initialState = {
 
 }
 
+function getObject(val){
+  return Object.assign({}, val || {})
+}
+
 export default function update(state = initialState, action = {}) {
 
   switch (action.type) {
@@ -12,9 +16,9 @@ export default function update(state = initialState, action = {}) {
       var formName = action.formname
       var fieldName = action.fieldname
 
-      var formState = state[formName] || {}
-      var data = formState.data || {}
-      var meta = formState.meta || {}
+      var formState = getObject(state[formName])
+      var data = getObject(formState.data)
+      var meta = getObject(formState.meta)
 
       data[fieldName] = action.value
       meta[fieldName] = {
@@ -24,7 +28,7 @@ export default function update(state = initialState, action = {}) {
 
       formState.data = data
       formState.meta = meta
-      var ret = Object.assign({}, state)
+      var ret = getObject(state)
       ret[formName] = formState
 
       return ret

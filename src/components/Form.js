@@ -50,6 +50,7 @@ export default class Form extends Component {
       var error = fieldMeta.error || ''
       var dirty = fieldMeta.dirty
 
+
       function update(val){
         var error = false
         if(typeof(field.validate)==='function'){
@@ -58,7 +59,7 @@ export default class Form extends Component {
         fieldUpdate({
           fieldname:name,
           formname:formName,
-          value:value,
+          value:val,
           error:error
         })
       }
