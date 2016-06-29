@@ -27,9 +27,9 @@ export default function update(state = initialState, action = {}) {
       }
 
       Object.keys(action.errors || {}).forEach(function(key){
-        var fieldmeta = getObject(meta[fieldName])
+        var fieldmeta = getObject(meta[key])
         fieldmeta.error = action.errors[key]
-        meta[fieldName] = fieldmeta
+        meta[key] = fieldmeta
       })
 
       formState.data = data

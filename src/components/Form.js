@@ -37,6 +37,11 @@ export default class Form extends Component {
     var schema = Schema(this.props.schema)
     var library = Library(this.props.library)
 
+    // ensure meta for each field
+    schema.forEach(field => {
+      formMeta[field.name] = formMeta[field.name] || {}
+    })
+
     var counter = 0
 
     function renderRow(field){
