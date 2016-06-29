@@ -5,7 +5,7 @@ import TextField from '../../library/standard/components/TextField'
 
 function setup(value){
   var props = {
-    onChange:expect.createSpy(),
+    update:expect.createSpy(),
     value:value
   }
 
@@ -47,7 +47,7 @@ describe('Component: TextField', () => {
     
     const { output, props } = setup('apples')
 
-    expect(props.onChange.calls.length).toBe(0)
+    expect(props.update.calls.length).toBe(0)
 
     output.props.onChange({
       target:{
@@ -55,8 +55,8 @@ describe('Component: TextField', () => {
       }
     })
 
-    expect(props.onChange.calls.length).toBe(1)
-    expect(props.onChange.calls[0].arguments).toEqual(['oranges'])
+    expect(props.update.calls.length).toBe(1)
+    expect(props.update.calls[0].arguments).toEqual(['oranges'])
 
   })
 
