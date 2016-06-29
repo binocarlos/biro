@@ -63,7 +63,7 @@ We also have a schema which describes the fields that will appear.
 ```javascript
 import React, { Component, PropTypes } from 'react'
 import Biro from 'biro'
-import standardLibrary from 'biro/lib/standard'
+import standardLibrary from 'biro/library/standard'
 
 const FORM_NAME = 'contact'
 
@@ -104,7 +104,7 @@ The following default library components are used to render the layout of the fo
  * form - renders an array of components
 
 ```javascript
-import standardLibrary from 'biro/lib/standard'
+import standardLibrary from 'biro/library/standard'
 
 class MyRowRenderer extends Component {
 	render() {
@@ -192,7 +192,7 @@ export default MyElement
 You map components into a library to use for a form - here is an example of us creating a custom library using `MyElement`:
 
 ```javascript
-import standardLibrary from 'biro/lib/standard'
+import standardLibrary from 'biro/library/standard'
 import MyElement from './library/myelement'
 
 var customLibrary = Object.assign({}, standardLibrary, {
