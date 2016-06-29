@@ -16,6 +16,7 @@ function getRenderer(type, value){
 export default class Form extends Component {
   render() {
 
+    // where in our state object are we writing this form's data
     var formName = this.props.name
 
     // from mapStateToProps

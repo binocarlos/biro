@@ -14,7 +14,10 @@ export class Form extends Component {
 
 function mapStateToProps(state, ownProps) {
 
-  var allFormState = state.biro
+  // the top-level property we are writing to in the state
+  var stateName = ownProps.statename || 'biro'
+
+  var allFormState = state[stateName]
   var formState = allFormState[ownProps.name]
 
   return {
