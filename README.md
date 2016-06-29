@@ -156,7 +156,6 @@ A full list of the properties you can use:
  * name - control where in the top-level state the data for this form is written
  * library - the name to Component map of the field renderers
  * schema - the list of the fields to render (must have 'name' and 'type')
- * initialdata - the existing data to initiate the form with
  * formrenderer - the component to use to render the whole form
  * rowrenderer - the component to use to render a row
  
@@ -252,6 +251,22 @@ The state object written to `state.form.XXXX` takes the following shape:
 			error:'cannot be blank'
 		}
 	}
+}
+```
+
+#### reset and initial state
+
+You can write new data to the form and reset it's dirty state using the `BIRO_FORM_RESET` action:
+
+```javascript
+import { resetForm } from 'biro/lib/actions/form'
+
+function mapDispatchToProps(dispatch, ownProps) {
+  return {
+    resetform:function(data){
+      dispatch(resetForm(ownProps.formname, data))
+    }
+  }
 }
 ```
 

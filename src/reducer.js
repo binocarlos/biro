@@ -1,4 +1,4 @@
-import { BIRO_FIELD_UPDATE } from './actions/form'
+import { BIRO_FIELD_UPDATE, BIRO_RESET_FORM } from './actions/form'
 
 const initialState = {
 
@@ -28,6 +28,22 @@ export default function update(state = initialState, action = {}) {
 
       formState.data = data
       formState.meta = meta
+      var ret = getObject(state)
+      ret[formName] = formState
+
+      return ret
+    case BIRO_RESET_FORM:
+
+      var formName = action.formname
+      var formData = action.data
+      
+      var formState = getObject(state[formName])
+
+      formState = {
+        data:formData || {},
+        meta:{}
+      }
+      
       var ret = getObject(state)
       ret[formName] = formState
 
