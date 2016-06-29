@@ -35,8 +35,7 @@
     "react": "^0.14.3",
     "react-dom": "^0.14.3",
     "react-redux": "^4.4.0",
-    "redux": "^3.1.6",
-    "redux-form": "^4.2.2"
+    "redux": "^3.1.6"
   },
   "devDependencies": {
     "babel-cli": "^6.6.4",
