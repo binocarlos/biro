@@ -14,8 +14,47 @@ function getRenderer(type, value){
 }
 
 export default class Form extends Component {
-  render() {
 
+  componentWillReceiveProps(nextProps) {
+    var formState = nextProps.formstate || {}
+
+    if(formState.force_validate){
+      this.forceValidateForm()
+    }
+  }
+
+  forceValidateForm(){
+    var formState = this.props.formstate || {}
+    var formData = formState.data || {}
+    var formMeta = formState.meta || {}
+
+    var validateForm = this.props.validate || function(){}
+    var validateupdate = this.props.validateupdate || function(){}
+
+    var checkMeta = Object.assign({}, formMeta)
+    Object.keys(checkMeta || {}).forEach(function(key){
+      checkMeta[key].dirty = true
+    })
+    var allErrors = validateForm(formData, checkMeta)
+    var fieldErrors = {}
+
+    var schema = Schema(this.props.schema)
+
+    schema.forEach(field => {
+      if(typeof(field.validate)==='function'){
+        var error = field.validate(formData[field.name])
+        if(typeof(error) !== 'string') error = null
+        if(error) fieldErrors[field.name] = error
+      }
+    })
+
+    var finalErrors = Object.assign({}, fieldErrors, allErrors)
+
+    validateupdate(finalErrors)
+  }
+
+  render() {
+    
     // where in our state object are we writing this form's data
     var formName = this.props.name
 
@@ -27,6 +66,7 @@ export default class Form extends Component {
 
     // from mapDispatchToProps
     var fieldUpdate = this.props.fieldupdate || function(){}
+    
 
     var formData = formState.data || {}
     var formMeta = formState.meta || {}
@@ -48,7 +88,7 @@ export default class Form extends Component {
 
       counter++
 
-      var name = field.name || 'field' + counter
+      var name = field.name
       var title = (field.title || field.name).replace(/^\w/, function(c){
         return c.toUpperCase()
       })
@@ -107,6 +147,8 @@ export default class Form extends Component {
         blur
       }))
     }
+
+    
 
     return React.createElement(formRenderer, {}, schema.map(renderRow))
   }

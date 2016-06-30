@@ -1,4 +1,8 @@
-import { BIRO_FIELD_UPDATE, BIRO_RESET_FORM } from './actions/form'
+import { 
+  BIRO_FIELD_UPDATE,
+  BIRO_RESET_FORM,
+  BIRO_VALIDATE_FORM,
+  BIRO_VALIDATE_UPDATE } from './actions/form'
 
 const initialState = {
 
@@ -54,6 +58,40 @@ export default function update(state = initialState, action = {}) {
       ret[formName] = formState
 
       return ret
+
+    // flag the form as needing a forced validation
+    case BIRO_VALIDATE_FORM:
+      var formName = action.formname
+      var formState = getObject(state[formName])
+      formState.force_validate = true
+
+      var ret = getObject(state)
+      ret[formName] = formState
+
+      return ret
+
+    // we have the results from the forced validation
+    // dont forget to reset the flag
+    case BIRO_VALIDATE_UPDATE:
+      var formName = action.formname
+      
+      var formState = getObject(state[formName])
+      var meta = getObject(formState.meta)
+
+      Object.keys(action.errors || {}).forEach(function(key){
+        meta[key] = {
+          dirty:true,
+          error:action.errors[key]
+        }
+      })
+
+      formState.meta = meta
+      formState.force_validate = false
+      var ret = getObject(state)
+      ret[formName] = formState
+
+      return ret
+
     default:
       return state
   }

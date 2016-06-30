@@ -317,18 +317,36 @@ The state object written to `state.form.XXXX` takes the following shape:
 You can write new data to the form and reset it's dirty state using the `BIRO_FORM_RESET` action:
 
 ```javascript
-import { resetForm } from 'biro/lib/actions/form'
+import { resetForm } from 'biro/actions'
 
 function mapDispatchToProps(dispatch, ownProps) {
   return {
     resetform:function(data){
-      dispatch(resetForm(ownProps.formname, data))
+      dispatch(resetForm(ownProps.name, data))
     }
   }
 }
 ```
 
 This lets you use the `.data` property for POSTing to an API and to analyse the `.fields` property for errors.
+
+#### force validation
+
+Sometimes it is useful to force the validation of a form regardless of if the user has interacted with the fields (for example if they click 'login' but have not clicked in the username box yet).
+
+For this we use the `validateForm` action which will trigger a full validation of all fields.
+
+```javascript
+import { validateForm } from 'biro/actions'
+
+function mapDispatchToProps(dispatch, ownProps) {
+  return {
+    submitform:function(data){
+      dispatch(validateForm(ownProps.name))
+    }
+  }
+}
+```
 
 ## license
 
