@@ -38,6 +38,7 @@ export default function update(state = initialState, action = {}) {
 
       formState.data = data
       formState.meta = meta
+      formState.has_validated_all = false
       var ret = getObject(state)
       ret[formName] = formState
 
@@ -53,6 +54,8 @@ export default function update(state = initialState, action = {}) {
         data:formData || {},
         meta:{}
       }
+
+      formState.has_validated_all = false
       
       var ret = getObject(state)
       ret[formName] = formState
@@ -64,6 +67,7 @@ export default function update(state = initialState, action = {}) {
       var formName = action.formname
       var formState = getObject(state[formName])
       formState.force_validate = true
+      formState.has_validated_all = false
 
       var ret = getObject(state)
       ret[formName] = formState
@@ -86,10 +90,18 @@ export default function update(state = initialState, action = {}) {
       })
 
       formState.meta = meta
-      formState.force_validate = false
+      delete(formState.force_validate)
+      formState.has_validated_all = true
       var ret = getObject(state)
       ret[formName] = formState
 
+      var isValid = Object.keys(meta || {}).map(function(key){
+        return meta[key].error
+      }).filter(function(e){
+        return e && typeof(e)==='string'
+      }).length>0 ? false : true
+
+      formState.valid = isValid
       return ret
 
     default:

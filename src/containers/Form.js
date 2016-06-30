@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 
 import { fieldUpdate, validateUpdate } from '../actions/form'
 import FormComponent from '../components/Form'
+import { getFormState } from '../tools'
 
 export class Form extends Component {
   render() {
@@ -13,16 +14,8 @@ export class Form extends Component {
 }
 
 function mapStateToProps(state, ownProps) {
-
-  // the top-level property we are writing to in the state
-  // use statename for backwards compat
-  var reducerName = ownProps.reducername || ownProps.statename || 'biro'
-
-  var allFormState = state[reducerName]
-  var formState = allFormState[ownProps.name]
-
   return {
-    formstate:formState
+    formstate:getFormState(state, ownProps)
   }
 }
 

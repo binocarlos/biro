@@ -348,6 +348,8 @@ function mapDispatchToProps(dispatch, ownProps) {
 }
 ```
 
+This will set a 'valid' property in the state object for that form.
+
 ## license
 
 MIT

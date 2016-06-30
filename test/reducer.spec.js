@@ -28,6 +28,7 @@ describe('reducer', () => {
         "data": {
           "surname": "apples"
         },
+        "has_validated_all": false,
         "meta": {
           "surname": {
             "error": false,
@@ -51,6 +52,7 @@ describe('reducer', () => {
         "data": {
           "fruit": "apples"
         },
+        "has_validated_all": false,
         "meta": {}
       }
     })
