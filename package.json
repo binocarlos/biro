@@ -1,6 +1,6 @@
 {
   "name": "biro",
-  "version": "2.4.0",
+  "version": "2.4.1",
   "description": "redux + material ui forms",
   "main": "index.js",
   "scripts": {
