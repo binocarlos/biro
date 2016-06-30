@@ -38,7 +38,7 @@ const reducers = {
   // ... your other reducers here ...
 
   // we use 'biro' as the top-level state name
-  // if you change this, you must set the 'statename' property of forms
+  // if you change this, you must set the 'reducername' property of forms
   biro: formReducer
 }
 const reducer = combineReducers(reducers)
@@ -152,7 +152,7 @@ export default MyForm
 
 A full list of the properties you can use:
 
- * statename - control the top-level state property (default = biro)
+ * reducername - control the top-level reducer name (default = biro)
  * name - control where in the top-level state the data for this form is written
  * library - the name to Component map of the field renderers
  * schema - the list of the fields to render (must have 'name' and 'type')

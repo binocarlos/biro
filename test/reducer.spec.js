@@ -18,7 +18,8 @@ describe('reducer', () => {
     var action = fieldUpdate({
       formname:'contact',
       fieldname:'surname',
-      value:'apples'
+      value:'apples',
+      dirty:true
     })
     var state = reducer(undefined, action)
 
