@@ -71,6 +71,7 @@ export default class Form extends Component {
       })
 
       return React.createElement(rowRenderer, {
+        title:field.title,
         field:field,
         key:'field' + field.name
       }, fieldElement)
