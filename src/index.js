@@ -1,3 +1,3 @@
-import Form from './containers/Form'
+import Form from './components/Form'
 
 export default Form

@@ -13,10 +13,27 @@ const FORM_SCHEMA = [
   'color'
 ]
 
+const data = {
+  name:'apples',
+  color:'red'
+}
+
+const meta = {
+  fields:{
+    name:{
+      valid:true
+    },
+    color:{
+      valid:true
+    }
+  }
+}
+
 const DEFAULT_PROPS = {
-  name:'myform',
   library:standardLibrary,
-  schema:FORM_SCHEMA
+  schema:FORM_SCHEMA,
+  data:data,
+  meta:meta
 }
 
 function getProps(props = {}){
