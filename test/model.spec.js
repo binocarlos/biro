@@ -50,9 +50,9 @@ describe('reducer', () => {
       height:5
     }
 
-    var meta = model.generate_meta(null, data1, schema, validate)
+    var meta1 = model.generate_meta(null, data1, schema, validate)
 
-    expect(meta).toEqual({
+    expect(meta1).toEqual({
       "valid": false,
       "dirty": false,
       "fields": {
@@ -68,7 +68,63 @@ describe('reducer', () => {
       }
     })
 
-    
+    var data2 = {
+      color:'blue'
+    }
+
+    var meta2 = model.generate_meta(null, data2, schema, validate)
+
+    expect(meta2).toEqual({
+      "valid": false,
+      "dirty": false,
+      "fields": {
+        "color": {
+          "error": "color must start with r",
+          "valid": false,
+          "dirty": false
+        },
+        "height": {
+          "valid": true,
+          "dirty": false
+        }
+      }
+    })
+
+    var data3 = {
+      color:'red',
+      height:20
+    }
+
+    var meta3 = model.generate_meta({
+      dirty:true,
+      valid:true,
+      fields:{
+        color:{
+          valid:true,
+          dirty:true
+        },
+        height:{
+          valid:false,
+          dirty:true
+        }
+      }
+    }, data3, schema, validate)
+
+    expect(meta3).toEqual({
+      "dirty": true,
+      "valid": true,
+      "fields": {
+        "color": {
+          "valid": true,
+          "dirty": true
+        },
+        "height": {
+          "valid": true,
+          "dirty": true
+        }
+      }
+    })
+
   })
 
 })
