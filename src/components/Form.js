@@ -1,154 +1,81 @@
 import React, { Component, PropTypes } from 'react'
-import FormRenderer from '../library/standard/layout/Form'
-import RowRenderer from '../library/standard/layout/Row'
-import Schema from '../schema'
-import Library from '../library'
-
-const defaultRenderers = {
-  form:FormRenderer,
-  row:RowRenderer
-}
-
-function getRenderer(type, value){
-  return value || defaultRenderers[type]
-}
+import model from '../model'
+import gui from '../gui'
 
 export default class Form extends Component {
 
-  componentWillReceiveProps(nextProps) {
-    var formState = nextProps.formstate || {}
+  triggerUpdate(meta, data, props, schema) {
+    if(!schema) schema = model.process_schema(props.schema)
+    var newMeta = model.generate_meta(
+      meta,
+      data,
+      schema,
+      props.validate)
 
-    if(formState.force_validate){
-      this.forceValidateForm()
+    props.update(data, newMeta)
+  }
+
+  componentWillReceiveProps(nextProps) {
+
+    // this means we are setting a new value and should trigger
+    // an update once we have validated
+
+    if(!nextProps.meta){
+      this.triggerUpdate(nextProps.meta, nextProps.data, nextProps)
     }
   }
 
-  forceValidateForm(){
-    var formState = this.props.formstate || {}
-    var formData = formState.data || {}
-    var formMeta = formState.meta || {}
-
-    var validateForm = this.props.validate || function(){}
-    var validateupdate = this.props.validateupdate || function(){}
-
-    var checkMeta = Object.assign({}, formMeta)
-    Object.keys(checkMeta || {}).forEach(function(key){
-      checkMeta[key].dirty = true
-    })
-    var allErrors = validateForm(formData, checkMeta)
-    var fieldErrors = {}
-
-    var schema = Schema(this.props.schema)
-
-    schema.forEach(field => {
-      if(typeof(field.validate)==='function'){
-        var error = field.validate(formData[field.name])
-        if(typeof(error) !== 'string') error = null
-        if(error) fieldErrors[field.name] = error
-      }
-    })
-
-    var finalErrors = Object.assign({}, fieldErrors, allErrors)
-
-    validateupdate(finalErrors)
+  componentWillMount() {
+    if(!this.props.meta){
+      this.triggerUpdate(this.props.meta, this.props.data, this.props)
+    }
   }
 
   render() {
-    
-    // where in our state object are we writing this form's data
-    var formName = this.props.name
 
-    // from mapStateToProps
-    var formState = this.props.formstate || {}
+    var props = this.props
+    var self = this
 
-    // overall validate function
-    var validateForm = this.props.validate || function(){}
+    var meta = JSON.parse(JSON.stringify(props.meta || {}))
+    var data = JSON.parse(JSON.stringify(props.data || {}))
 
-    // from mapDispatchToProps
-    var fieldUpdate = this.props.fieldupdate || function(){}
-    
-
-    var formData = formState.data || {}
-    var formMeta = formState.meta || {}
-
-    var formRenderer = getRenderer('form', this.props.formrenderer)
-    var rowRenderer = getRenderer('row', this.props.rowrenderer)
-
-    var schema = Schema(this.props.schema)
-    var library = Library(this.props.library)
-
-    // ensure meta for each field
-    schema.forEach(field => {
-      formMeta[field.name] = formMeta[field.name] || {}
-    })
-
-    var counter = 0
-
-    function renderRow(field){
-
-      counter++
-
-      var name = field.name
-      var title = (field.title || field.name).replace(/^\w/, function(c){
-        return c.toUpperCase()
-      })
-      var fieldRenderer = library[field.type] || library.text
-      var fieldMeta = formMeta[name] || {}
-      var value = formData[name]
-      var error = fieldMeta.error || ''
-      var dirty = fieldMeta.dirty
-
-      function runChange(isBlur, val){
-        val = isBlur ? value : val
-        var error = false
-        var errors = {}
-        if(isBlur){
-          if(typeof(field.validate)==='function'){
-            error = field.validate(val)
-            if(typeof(error) !== 'string') error = null
-          }
-          
-          var checkData = Object.assign({}, formData)
-          checkData[name] = val
-          var checkMeta = Object.assign({}, formMeta)
-          checkMeta[name] = {
-            dirty:true,
-            error:error
-          }
-          errors = validateForm(checkData, checkMeta)
-        }
-        fieldUpdate({
-          fieldname:name,
-          formname:formName,
-          value:val,
-          error:error,
-          errors:errors,
-          dirty:isBlur
-        })
-      }
-
-      function update(val){
-        runChange(false, val)
-      }
-
-      function blur(val){
-        runChange(true)
-      }
-
-      return React.createElement(rowRenderer, {
-        title,
-        key:'field' + counter
-      }, React.createElement(fieldRenderer, {
-        title,
-        value,
-        error,
-        schema:field,
-        update,
-        blur
-      }))
+    if(!meta.fields){
+      meta.fields = {}
     }
 
-    
+    var schema = model.process_schema(props.schema)
+    var formRenderer = gui.get_layout('form', props.layout)
+    var rowRenderer = gui.get_layout('row', props.layout)
+
+    function renderRow(field) {
+      var fieldComponent = gui.get_library(field.type, props.library)
+      var metaEntry = meta.fields[field.name] || {}
+
+      var fieldElement = React.createElement(fieldComponent, {
+        title:field.title,
+        value:data[field.name],
+        error:metaEntry.error,
+        schema:field,
+        update:function(val){
+
+          data[field.name] = val
+          self.triggerUpdate(meta, data, props, schema)
+          
+        },
+        blur:function(){
+
+          meta.fields[field.name].dirty = true
+          self.triggerUpdate(meta, data, props, schema)
+
+        }
+      })
+
+      return React.createElement(rowRenderer, {
+        title:field.title,
+        field:field,
+        key:'field' + field.name
+      }, fieldElement)
+    }
 
     return React.createElement(formRenderer, {}, schema.map(renderRow))
   }

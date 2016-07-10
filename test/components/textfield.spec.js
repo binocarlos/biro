@@ -6,6 +6,7 @@ import TextField from '../../lib/library/standard/components/TextField'
 function setup(value){
   var props = {
     update:expect.createSpy(),
+    blur:expect.createSpy(),
     value:value
   }
 

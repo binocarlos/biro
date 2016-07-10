@@ -8,11 +8,14 @@ class TextField extends Component {
 
   render() {
     return (
-      <input type="text" value={this.props.value} onChange={this.handleChange.bind(this)} />
+      <input 
+        type={this.props.inputtype || 'text'} 
+        value={this.props.value} 
+        onBlur={this.props.blur}
+        onChange={this.handleChange.bind(this)} />
     )
   }
 
 }
 
 export default TextField
-
