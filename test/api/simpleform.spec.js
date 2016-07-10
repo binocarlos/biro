@@ -37,7 +37,9 @@ const DEFAULT_PROPS = {
 }
 
 function getProps(props = {}){
-  return Object.assign({}, DEFAULT_PROPS, props)
+  return Object.assign({
+    update:expect.createSpy()
+  }, DEFAULT_PROPS, props)
 }
 
 function setup(props){
@@ -48,6 +50,7 @@ function setup(props){
 
   return {
     output,
+    props,
     renderer
   }
 }
@@ -68,6 +71,17 @@ describe('API: SimpleForm', () => {
     let inputs = $(rootElement).find('input')
 
     expect(inputs.length).toBe(2)
+  })
+
+  it('should trigger an immediate update if no meta is given', () => {
+
+    var props = getProps({
+      meta:null
+    })
+    let rootElement = setupDOM(props)
+
+    expect(props.update.calls.length).toBe(1)
+
   })
 
 

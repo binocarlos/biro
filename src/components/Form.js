@@ -4,56 +4,68 @@ import gui from '../gui'
 
 export default class Form extends Component {
 
+  triggerUpdate(meta, data, props, schema) {
+    if(!schema) schema = model.process_schema(props.schema)
+    var newMeta = model.generate_meta(
+      meta,
+      data,
+      schema,
+      props.validate)
+
+    props.update(data, newMeta)
+  }
+
   componentWillReceiveProps(nextProps) {
 
     // this means we are setting a new value and should trigger
     // an update once we have validated
+
     if(!nextProps.meta){
-      var newMeta = model.generate_meta(
-        this.props.meta,
-        this.props.data,
-        model.process_schema(this.props.schema),
-        this.props.validate)
-      this.props.update(this.props.data, newMeta)
+      this.triggerUpdate(nextProps.meta, nextProps.data, nextProps)
+    }
+  }
+
+  componentWillMount() {
+    if(!this.props.meta){
+      this.triggerUpdate(this.props.meta, this.props.data, this.props)
     }
   }
 
   render() {
 
     var props = this.props
+    var self = this
+
+    var meta = JSON.parse(JSON.stringify(props.meta || {}))
+    var data = JSON.parse(JSON.stringify(props.data || {}))
+
+    if(!meta.fields){
+      meta.fields = {}
+    }
 
     var schema = model.process_schema(props.schema)
     var formRenderer = gui.get_layout('form', props.layout)
     var rowRenderer = gui.get_layout('row', props.layout)
 
-    function triggerUpdate() {
-      var newMeta = model.generate_meta(
-        props.meta,
-        props.data,
-        schema,
-        props.validate)
-
-      props.update(props.data, newMeta)
-    }
-
     function renderRow(field) {
       var fieldComponent = gui.get_library(field.type, props.library)
+      var metaEntry = meta.fields[field.name] || {}
 
       var fieldElement = React.createElement(fieldComponent, {
         title:field.title,
-        value:props.data[field.name],
-        error:props.meta.fields[field.name].error,
+        value:data[field.name],
+        error:metaEntry.error,
         schema:field,
         update:function(val){
 
-          props.data[field.name] = val
-          triggerUpdate()
+          data[field.name] = val
+          self.triggerUpdate(meta, data, props, schema)
           
         },
         blur:function(){
 
-          props.meta.fields[field.name].dirty = true
-          triggerUpdate()
+          meta.fields[field.name].dirty = true
+          self.triggerUpdate(meta, data, props, schema)
 
         }
       })
