@@ -55,6 +55,7 @@ export default class Form extends Component {
         title:field.title,
         value:data[field.name],
         error:metaEntry.error,
+        dirty:metaEntry.dirty,
         schema:field,
         update:function(val){
 
