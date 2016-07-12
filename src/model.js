@@ -24,6 +24,7 @@ export function generate_meta(meta, data, schema, validate){
     meta = {
       valid:true,
       dirty:false,
+      olddata:data || {},
       fields:{}
     }
   }
@@ -31,13 +32,17 @@ export function generate_meta(meta, data, schema, validate){
     meta = JSON.parse(JSON.stringify(meta))
   }
 
+  var olddata = meta.olddata || {}
+
   // loop each field in the form and initialize it's field
   // entry as well as apply schema validation
   schema.forEach(function(field){
     var error = null
     var valid = true
+    var value = data[field.name]
+    var oldvalue = olddata[field.name]
+    
     if(typeof(field.validate)==='function'){
-      var value = data[field.name]
       var error = field.validate(value)
       error = typeof(error)==='string' ? error : null
     }
@@ -47,7 +52,12 @@ export function generate_meta(meta, data, schema, validate){
       valid = false
       entry.error = error
     }
+    else{
+      delete(entry.error)
+    }
+    var changed = oldvalue!=value
     entry.valid = valid
+    entry.changed = changed
     entry.dirty = entry.dirty || false
     meta.fields[field.name] = entry
   })

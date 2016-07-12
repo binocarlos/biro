@@ -56,6 +56,7 @@ export default class Form extends Component {
         value:data[field.name],
         error:metaEntry.error,
         dirty:metaEntry.dirty,
+        valid:metaEntry.valid,
         schema:field,
         update:function(val){
 
@@ -65,7 +66,16 @@ export default class Form extends Component {
         },
         blur:function(){
 
-          meta.fields[field.name].dirty = true
+          var metaEntry = meta.fields[field.name]
+
+          // only flag the field as dirty if it has changed
+          // errors display if the field is dirty
+          if(metaEntry && metaEntry.changed){
+            metaEntry.dirty = true
+          }
+
+          meta.fields[field.name] = metaEntry
+
           self.triggerUpdate(meta, data, props, schema)
 
         }
