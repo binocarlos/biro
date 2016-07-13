@@ -55,12 +55,18 @@ describe('reducer', () => {
     expect(meta1).toEqual({
       "valid": false,
       "dirty": false,
+      "olddata": {
+        "color": "red",
+        "height": 5
+      },
       "fields": {
         "color": {
+          "changed": false,
           "valid": true,
           "dirty": false
         },
         "height": {
+          "changed": false,
           "valid": false,
           "dirty": false,
           "error": "red things must be more than 10 tall"
@@ -77,13 +83,18 @@ describe('reducer', () => {
     expect(meta2).toEqual({
       "valid": false,
       "dirty": false,
+      "olddata": {
+        "color": "blue"
+      },
       "fields": {
         "color": {
+          "changed": false,
           "error": "color must start with r",
           "valid": false,
           "dirty": false
         },
         "height": {
+          "changed": false,
           "valid": true,
           "dirty": false
         }
@@ -98,12 +109,18 @@ describe('reducer', () => {
     var meta3 = model.generate_meta({
       dirty:true,
       valid:true,
+      "olddata": {
+        color:'red',
+        height:20
+      },
       fields:{
         color:{
+          "changed": false,
           valid:true,
           dirty:true
         },
         height:{
+          "changed": false,
           valid:false,
           dirty:true
         }
@@ -113,12 +130,18 @@ describe('reducer', () => {
     expect(meta3).toEqual({
       "dirty": true,
       "valid": true,
+      "olddata": {
+        color:'red',
+        height:20
+      },
       "fields": {
         "color": {
+          "changed": false,
           "valid": true,
           "dirty": true
         },
         "height": {
+          "changed": false,
           "valid": true,
           "dirty": true
         }
