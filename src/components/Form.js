@@ -12,7 +12,7 @@ export default class Form extends Component {
       schema,
       props.validate)
 
-    props.update(data, newMeta)
+    props.update && props.update(data, newMeta)
   }
 
   componentWillReceiveProps(nextProps) {
