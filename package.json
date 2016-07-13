@@ -1,6 +1,6 @@
 {
   "name": "biro",
-  "version": "3.1.0",
+  "version": "3.1.1",
   "description": "redux + material ui forms",
   "main": "index.js",
   "scripts": {
@@ -49,12 +49,10 @@
     "jsdom": "^8.1.0",
     "mocha": "^2.4.5",
     "webpack": "^1.12.12",
-    
     "react-addons-test-utils": "^15.2.1",
     "react-dom": "^15.1.0",
     "react-redux": "^4.4.5",
     "react-shallow-testutils": "^2.0.0",
     "redux": "^3.5.2"
-    
   }
 }
