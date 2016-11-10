@@ -54,6 +54,7 @@ export default class Form extends Component {
       var fieldElement = React.createElement(fieldComponent, {
         title:field.title,
         value:data[field.name],
+        data:data,
         error:metaEntry.error,
         dirty:metaEntry.dirty,
         valid:metaEntry.valid,
