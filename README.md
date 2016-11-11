@@ -116,6 +116,7 @@ A full list of the properties you can use:
  * validate - an overall validation function that can work with all form data
  * update - a function to call when the form state changes
  * rawschema - do not apply the pre-processor to the schema
+ * getContext - a function that is passed into each field component
 
 #### update
 

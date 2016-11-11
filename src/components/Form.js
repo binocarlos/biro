@@ -2,6 +2,10 @@ import React, { Component, PropTypes } from 'react'
 import model from '../model'
 import gui from '../gui'
 
+const getBlankContext = () => {
+  return {}
+}
+
 export default class Form extends Component {
 
   triggerUpdate(meta, data, props, schema) {
@@ -34,7 +38,6 @@ export default class Form extends Component {
   render() {
 
     var props = this.props
-    var self = this
 
     var meta = JSON.parse(JSON.stringify(props.meta || {}))
     var data = JSON.parse(JSON.stringify(props.data || {}))
@@ -47,7 +50,7 @@ export default class Form extends Component {
     var formRenderer = gui.get_layout('form', props.layout)
     var rowRenderer = gui.get_layout('row', props.layout)
 
-    function renderRow(field) {
+    const renderRow = (field) => {
       var fieldComponent = gui.get_library(field.type, props.library)
       var metaEntry = meta.fields[field.name] || {}
 
@@ -55,17 +58,18 @@ export default class Form extends Component {
         title:field.title,
         value:data[field.name],
         data:data,
+        getContext:this.props.getContext || getBlankContext,
         error:metaEntry.error,
         dirty:metaEntry.dirty,
         valid:metaEntry.valid,
         schema:field,
-        update:function(val){
+        update:(val) => {
 
           data[field.name] = val
-          self.triggerUpdate(meta, data, props, schema)
+          this.triggerUpdate(meta, data, props, schema)
           
         },
-        blur:function(){
+        blur:() => {
 
           var metaEntry = meta.fields[field.name]
 
@@ -77,7 +81,7 @@ export default class Form extends Component {
 
           meta.fields[field.name] = metaEntry
 
-          self.triggerUpdate(meta, data, props, schema)
+          this.triggerUpdate(meta, data, props, schema)
 
         }
       })
