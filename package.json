@@ -34,8 +34,11 @@
     "url": "https://github.com/binocarlos/biro/issues"
   },
   "homepage": "https://github.com/binocarlos/biro",
+  "peerDependencies": {
+    "react": "^15.0.0"
+  },
   "dependencies": {
-    "react": "^15.4.1"
+    
   },
   "devDependencies": {
     "babel-cli": "^6.10.1",
@@ -53,6 +56,7 @@
     "react-redux": "^4.4.5",
     "react-shallow-testutils": "^2.0.0",
     "redux": "^3.5.2",
-    "webpack": "^1.12.12"
+    "webpack": "^1.12.12",
+    "react": "^15.4.1"
   }
 }
