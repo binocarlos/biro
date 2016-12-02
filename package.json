@@ -4,17 +4,8 @@
   "description": "redux + material ui forms",
   "main": "lib/index.js",
   "scripts": {
-    "clean": "mkdir -p example/dist && rm -rf example/dist/*",
-    "indexpage": "cp example/index.html example/dist/index.html",
-    "assets": "npm
-     run indexpage",
-    "watch": "WEBPACK_ARGS=--watch npm run webpack",
-    "prewebpack": "npm run clean && npm run assets",
-    "webpack": "webpack $WEBPACK_ARGS",
     "compile": "babel -d lib/ src/",
-    "prepublish": "npm run compile",
-    "prebuild": "npm run compile",
-    "build": "NODE_ENV=development npm run webpack"
+    "prepublish": "npm run compile"
   },
   "repository": {
     "type": "git",
