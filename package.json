@@ -1,6 +1,6 @@
 {
   "name": "biro",
-  "version": "3.2.4",
+  "version": "3.2.5",
   "description": "redux + material ui forms",
   "main": "index.js",
   "scripts": {
@@ -37,9 +37,7 @@
   "peerDependencies": {
     "react": "^15.0.0"
   },
-  "dependencies": {
-    
-  },
+  "dependencies": {},
   "devDependencies": {
     "babel-cli": "^6.10.1",
     "babel-core": "^6.4.5",
