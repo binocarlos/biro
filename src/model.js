@@ -24,6 +24,7 @@ export function generate_meta(meta, data, schema, validate){
     meta = {
       valid:true,
       dirty:false,
+      changed:false,
       olddata:data || {},
       fields:{}
     }
@@ -76,15 +77,18 @@ export function generate_meta(meta, data, schema, validate){
   // work out the global dirty and valid properties
   var allValid = true
   var allDirty = false
+  var allChanged = false
 
   Object.keys(meta.fields || {}).forEach(function(key){
     var entry = meta.fields[key]
     if(!entry.valid) allValid = false
     if(entry.dirty) allDirty = true
+    if(entry.changed) allChanged = true
   })
 
   meta.valid = allValid
   meta.dirty = allDirty
+  meta.changed = allChanged
 
   return meta
 }

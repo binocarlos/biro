@@ -136,6 +136,7 @@ Here is an example of the state object once our reducer has stashed the data and
 	meta:{
 		valid:false,
     dirty:true,
+    changed:true,
     fields:{
       name:{
         dirty:true,
@@ -294,6 +295,8 @@ Biro validates continously and so at any given moment the validation state of th
 The `dirty` property must be true for a form error to display - this means if a user clicks submit before entering any information we would want to not submit and instead display the errors.
 
 You can use the `biro/tools` library to do this (as in the example at the top of the page).
+
+The `changed` property of the meta data (and each field) is set to true simply if the value has changed.
 
 The `validate` property of the form is a function that accepts an object (the data entered into the form) and returns an object with a property for each of the errors.
 

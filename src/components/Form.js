@@ -61,6 +61,7 @@ export default class Form extends Component {
         getContext:this.props.getContext || getBlankContext,
         error:metaEntry.error,
         dirty:metaEntry.dirty,
+        changed:metaEntry.changed,
         valid:metaEntry.valid,
         schema:field,
         update:(val) => {
